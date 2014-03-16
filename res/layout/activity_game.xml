@@ -17,5 +17,33 @@
         android:layout_centerVertical="true"
         android:background="#C8B8A0" >
     </TableLayout>
+    
+    <RelativeLayout
+        android:id="@+id/scoreLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/score"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/scoreHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:textSize="15sp"
+            android:text="@string/score_header" />
+        <TextView
+            android:id="@+id/scoreView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/scoreHeader"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

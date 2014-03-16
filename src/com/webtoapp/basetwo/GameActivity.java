@@ -8,6 +8,7 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.widget.TableLayout;
+import android.widget.TextView;
 
 public class GameActivity extends Activity implements OnGestureListener, OnDoubleTapListener {
     private static final int SWIPE_MIN_DISTANCE = 120;
@@ -37,7 +38,13 @@ public class GameActivity extends Activity implements OnGestureListener, OnDoubl
         TableLayout boardView = (TableLayout) findViewById(R.id.playBoard);
         board = new Board(size, this.getApplicationContext(), boardView);
         board.addCells();
+        displayScore();
         startGame();
+    }
+
+    public void displayScore() {
+        TextView scoreView = (TextView) findViewById(R.id.scoreView);
+        scoreView.setText(String.valueOf(board.score()));
     }
 
     public void startGame() {
@@ -89,6 +96,7 @@ public class GameActivity extends Activity implements OnGestureListener, OnDoubl
         }
         if (didMove) {
             board.addValueToRandomPosition();
+            displayScore();
             return true;
         }
         return false;

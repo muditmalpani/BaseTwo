@@ -9,5 +9,6 @@
     <string name="menu_medium">Medium</string>
     <string name="menu_hard">Hard</string>
     <string name="menu_quit">Quit</string>
+    <string name="score_header">SCORE</string>
 
 </resources>
