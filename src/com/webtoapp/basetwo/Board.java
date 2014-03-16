@@ -39,6 +39,9 @@ public class Board {
     }
 
     private int getRandomValue() {
+        if (size < 3) {
+            return 2;
+        }
         double x = Math.random();
         if (x < 0.8) {
             return 2;
@@ -57,7 +60,7 @@ public class Board {
         if (numEmptyCells == 0) {
             return null;
         }
-        int i = (int) (Math.random() * 16);
+        int i = (int) (Math.random() * size * size);
         int row = (int) i / size;
         int col = i % size;
         if (cells[row][col].value() == 0) {

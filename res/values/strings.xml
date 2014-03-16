@@ -2,7 +2,12 @@
 <resources>
 
     <string name="app_name">BaseTwo</string>
+    <string name="levet_select_activity_title">BaseTwo</string>
+    <string name="game_activity_title">BaseTwoGame</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="menu_easy">Easy</string>
+    <string name="menu_medium">Medium</string>
+    <string name="menu_hard">Hard</string>
+    <string name="menu_quit">Quit</string>
 
 </resources>

@@ -28,8 +28,14 @@ public class GameActivity extends Activity implements OnGestureListener, OnDoubl
         // listener.
         mDetector.setOnDoubleTapListener(this);
 
+        int size = 4;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            size = extras.getInt("level") + 1;
+        }
+
         TableLayout boardView = (TableLayout) findViewById(R.id.playBoard);
-        board = new Board(4, this.getApplicationContext(), boardView);
+        board = new Board(size, this.getApplicationContext(), boardView);
         board.addCells();
         startGame();
     }
