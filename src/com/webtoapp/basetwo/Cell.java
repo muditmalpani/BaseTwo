@@ -9,24 +9,25 @@ import android.widget.TextView;
 
 public class Cell {
     private static String[] cellColors = {
-        "#CCC0B4",//0
-        "#CCC0B4",//1
-        "#CCC0B4",//2
-        "#CCC0B4",//3
-        "#CCC0B4",//4
-        "#CCC0B4",//5
-        "#CCC0B4",//6
-        "#CCC0B4",//7
-        "#CCC0B4",//8
-        "#CCC0B4",//9
-        "#CCC0B4",//10
-        "#CCC0B4",//11
-        "#CCC0B4",//12
-        "#CCC0B4",//13
-        "#CCC0B4",//14
-        "#CCC0B4",//15
+        "#EDE0C8",//2
+        "#EDE0B8",//4
+        "#EDE0A8",//8
+        "#EDD0A8",//16
+        "#EDD088",//32
+        "#EDD068",//64
+        "#EDB068",//128
+        "#ED9068",//256
+        "#ED7058",//512
+        "#ED6038",//1024
+        "#F24018",//2048
+        "#F52008",//4096
+        "#FF0000",//8192
+        "#FF0000",
+        "#FF0000",
+        "#FF0000",
+        "#FF0000",
     };
-    private static String cellColor = "#CCC0B4";
+    private static String cellColor = "#D8C8B0";
     private static String cellTextColor = "#776E65";
 
     private int value;
@@ -63,8 +64,20 @@ public class Cell {
     private void displayText() {
         if (value > 0) {
             view.setText(String.valueOf(value));
-            int colorIndex = logBase2(value);
+            int colorIndex = logBase2(value) - 1;
             view.setBackgroundColor(Color.parseColor(cellColors[colorIndex]));
+            if (value < 10) {
+                view.setTextColor(Color.parseColor("#776666"));
+            } else {
+                view.setTextColor(Color.parseColor("#EEEEEE"));
+            }
+            if (value > 1000) {
+                view.setTextSize(25);
+            } else if (value > 100) {
+                view.setTextSize(28);
+            } else {
+                view.setTextSize(30);
+            }
         } else {
             view.setText("");
             view.setBackgroundColor(Color.parseColor(cellColor));

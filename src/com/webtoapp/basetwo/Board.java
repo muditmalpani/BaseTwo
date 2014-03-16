@@ -1,7 +1,6 @@
 package com.webtoapp.basetwo;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -14,15 +13,16 @@ public class Board {
     private Context context;
     private TableLayout boardView;
     private int numEmptyCells;
+    private int score;
 
     public Board(int size, Context context, TableLayout view) {
         this.size = size;
         cells = new Cell[size][size];
         boardView = view;
-        view.setBackgroundColor(Color.parseColor("#BBADA0"));
         view.setPadding(10, 10, 10, 10);
         this.context = context;
         numEmptyCells = 16;
+        score = 0;
     }
 
     public void addCells() {
@@ -81,12 +81,7 @@ public class Board {
             for (int row = 0; row < size; row++) {
                 cellList.add(cells[row][col]);
             }
-            List<Integer> initialList = getCellValues(cellList);
-            List<Integer> finalList = getPushedList(initialList);
-            if (!initialList.equals(finalList)) {
-                didMove = true;
-                addValuesForListToCells(finalList, cellList);
-            }
+            didMove |= updateCellsAndScore(cellList);
         }
         return didMove;
     }
@@ -99,12 +94,7 @@ public class Board {
             for (int row = size - 1; row >= 0; row--) {
                 cellList.add(cells[row][col]);
             }
-            List<Integer> initialList = getCellValues(cellList);
-            List<Integer> finalList = getPushedList(initialList);
-            if (!initialList.equals(finalList)) {
-                didMove = true;
-                addValuesForListToCells(finalList, cellList);
-            }
+            didMove |= updateCellsAndScore(cellList);
         }
         return didMove;
     }
@@ -117,12 +107,7 @@ public class Board {
             for (int col = 0; col < size; col++) {
                 cellList.add(cells[row][col]);
             }
-            List<Integer> initialList = getCellValues(cellList);
-            List<Integer> finalList = getPushedList(initialList);
-            if (!initialList.equals(finalList)) {
-                didMove = true;
-                addValuesForListToCells(finalList, cellList);
-            }
+            didMove |= updateCellsAndScore(cellList);
         }
         return didMove;
     }
@@ -135,14 +120,20 @@ public class Board {
             for (int col = size - 1; col >= 0; col--) {
                 cellList.add(cells[row][col]);
             }
-            List<Integer> initialList = getCellValues(cellList);
-            List<Integer> finalList = getPushedList(initialList);
-            if (!initialList.equals(finalList)) {
-                didMove = true;
-                addValuesForListToCells(finalList, cellList);
-            }
+            didMove |= updateCellsAndScore(cellList);
         }
         return didMove;
+    }
+
+    // returns true if cells were updated
+    private boolean updateCellsAndScore(List<Cell> cellList) {
+        List<Integer> initialList = getCellValues(cellList);
+        List<Integer> finalList = getPushedList(initialList);
+        if (!initialList.equals(finalList)) {
+            addValuesForListToCells(finalList, cellList);
+            return true;
+        }
+        return false;
     }
 
     private List<Integer> getCellValues(List<Cell> cells) {
@@ -159,6 +150,7 @@ public class Board {
         }
     }
 
+    // this method also updates the score
     private List<Integer> getPushedList(List<Integer> initialList) {
         List<Integer> finalList = new ArrayList<Integer>();
         int prev = -1;
@@ -166,6 +158,7 @@ public class Board {
             if (i != null && i != 0) {
                 if (i == prev) {
                     finalList.add(2 * i);
+                    score += 2 * i;
                     prev = -1;
                 } else {
                     if (prev != -1) {
@@ -185,6 +178,10 @@ public class Board {
             numEmptyCells++;
         }
         return finalList;
+    }
+
+    public int score() {
+        return score;
     }
 
 }
