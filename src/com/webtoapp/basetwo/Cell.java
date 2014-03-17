@@ -31,7 +31,7 @@ public class Cell {
     private static String cellTextColor = "#776E65";
 
     private int value;
-    public TextView view;
+    final public TextView view;
 
     public Cell(Context context) {
         value = 0;
@@ -82,6 +82,12 @@ public class Cell {
             view.setText("");
             view.setBackgroundColor(Color.parseColor(cellColor));
         }
+    }
+
+    public void makeEmpty() {
+        value = 0;
+        view.setText("");
+        view.setBackgroundColor(Color.parseColor(cellColor));
     }
 
     private static int logBase2(int a) {

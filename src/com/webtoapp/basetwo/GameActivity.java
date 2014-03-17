@@ -3,14 +3,18 @@ package com.webtoapp.basetwo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.GestureDetectorCompat;
-import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
-public class GameActivity extends Activity implements OnGestureListener, OnDoubleTapListener {
+public class GameActivity extends Activity implements OnGestureListener {
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     private Board board;
@@ -25,9 +29,6 @@ public class GameActivity extends Activity implements OnGestureListener, OnDoubl
         // application context and an implementation of
         // GestureDetector.OnGestureListener
         mDetector = new GestureDetectorCompat(this, this);
-        // Set the gesture detector as the double tap
-        // listener.
-        mDetector.setOnDoubleTapListener(this);
 
         int size = 4;
         Bundle extras = getIntent().getExtras();
@@ -97,9 +98,49 @@ public class GameActivity extends Activity implements OnGestureListener, OnDoubl
         if (didMove) {
             board.addValueToRandomPosition();
             displayScore();
+            if (board.isFull()) {
+                finishGame();
+            }
             return true;
         }
         return false;
+    }
+
+    public void finishGame() {
+        RelativeLayout resultView = (RelativeLayout) findViewById(R.id.game_over_layout);
+        resultView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+        LayoutInflater.from(getApplicationContext()).inflate(R.layout.game_over, resultView, true);
+
+        TextView scoreView = (TextView) findViewById(R.id.score_result_view);
+        scoreView.setText(String.valueOf(board.score()));
+
+        Button restartBtn = (Button) findViewById(R.id.restart_btn);
+        restartBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                restartGame();
+            }
+        });
+
+        Button backBtn = (Button) findViewById(R.id.back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+    public void restartGame() {
+        RelativeLayout resultView = (RelativeLayout) findViewById(R.id.game_over_layout);
+        // remove the result view
+        resultView.removeAllViews();
+        resultView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+
+        // reset the board
+        board.resetBoard();
+        startGame();
+        displayScore();
     }
 
     @Override
@@ -122,21 +163,6 @@ public class GameActivity extends Activity implements OnGestureListener, OnDoubl
 
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTap(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onDoubleTapEvent(MotionEvent e) {
-        return false;
-    }
-
-    @Override
-    public boolean onSingleTapConfirmed(MotionEvent e) {
         return false;
     }
 

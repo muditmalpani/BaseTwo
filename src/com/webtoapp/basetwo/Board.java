@@ -1,6 +1,7 @@
 package com.webtoapp.basetwo;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -21,7 +22,7 @@ public class Board {
         boardView = view;
         view.setPadding(10, 10, 10, 10);
         this.context = context;
-        numEmptyCells = 16;
+        numEmptyCells = size * size;
         score = 0;
     }
 
@@ -54,6 +55,7 @@ public class Board {
         if (cell != null) {
             cell.setValue(getRandomValue());
         }
+        numEmptyCells--;
     }
 
     public Cell getRandomEmptyCell() {
@@ -69,8 +71,46 @@ public class Board {
         return getRandomEmptyCell();
     }
 
+    // returns true if no further move is possible
     public boolean isFull() {
-        return numEmptyCells == 0;
+        Log.i("BaseTwo", "empty cells: " + numEmptyCells);
+        if (numEmptyCells != 0) {
+            return false;
+        }
+        // if no empty cell, check if no further move can be made
+
+        // check for similar continuous cells in row
+        for (int row = 0; row < size; row++) {
+            int prev = -1;
+            for (int col = 0; col < size; col++) {
+                int v = cells[row][col].value();
+                if (v != 0) {
+                    if (prev != -1 && v == prev) {
+                        return false;
+                    }
+                    prev = v;
+                } else {
+                    prev = -1;
+                }
+            }
+        }
+
+        // check for similar continuous cells in column
+        for (int col = 0; col < size; col++) {
+            int prev = -1;
+            for (int row = 0; row < size; row++) {
+                int v = cells[row][col].value();
+                if (v != 0) {
+                    if (prev != -1 && v == prev) {
+                        return false;
+                    }
+                    prev = v;
+                } else {
+                    prev = -1;
+                }
+            }
+        }
+        return true;
     }
 
     public boolean pushUp() {
@@ -184,4 +224,18 @@ public class Board {
         return score;
     }
 
+    public int size() {
+        return size;
+    }
+
+    public void resetBoard() {
+        for (int row = 0; row < size; row++) {
+            for (int col = 0; col < size; col++) {
+                Cell c = cells[row][col];
+                c.makeEmpty();
+            }
+        }
+        numEmptyCells = size * size;
+        score = 0;
+    }
 }
