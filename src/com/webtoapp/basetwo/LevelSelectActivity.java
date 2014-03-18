@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class LevelSelectActivity extends Activity {
 
@@ -50,6 +51,19 @@ public class LevelSelectActivity extends Activity {
         editor.putInt("level", level);
         editor.commit();
         this.finish();
+    }
+
+    // Google Analytics
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
 }

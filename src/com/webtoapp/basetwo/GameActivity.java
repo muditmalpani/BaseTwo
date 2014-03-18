@@ -1,8 +1,10 @@
 package com.webtoapp.basetwo;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.provider.Settings.Secure;
 import android.support.v4.view.GestureDetectorCompat;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
@@ -14,12 +16,20 @@ import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.analytics.tracking.android.GoogleAnalytics;
+import com.google.analytics.tracking.android.MapBuilder;
+import com.google.analytics.tracking.android.Tracker;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class GameActivity extends Activity implements OnGestureListener {
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     public static final String PREFS_NAME = "AppPrefsFile";
     private Board board;
+    private Tracker tracker;
     private GestureDetectorCompat mDetector;
 
     @Override
@@ -31,6 +41,7 @@ public class GameActivity extends Activity implements OnGestureListener {
         // application context and an implementation of
         // GestureDetector.OnGestureListener
         mDetector = new GestureDetectorCompat(this, this);
+        tracker = GoogleAnalytics.getInstance(this).getTracker("UA-49097018-1");
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         int level = settings.getInt("level", 3);
@@ -51,6 +62,12 @@ public class GameActivity extends Activity implements OnGestureListener {
     public void startGame() {
         board.addValueToRandomPosition();
         board.addValueToRandomPosition();
+        tracker.send(MapBuilder
+                .createEvent("game_event",
+                        "start",
+                        getShaAndroidId(getApplicationContext()),
+                        null)
+                .build());
     }
 
     @Override
@@ -125,6 +142,35 @@ public class GameActivity extends Activity implements OnGestureListener {
         return message;
     }
 
+    public static String getShaAndroidId(Context context) {
+        try {
+            return sha1(Secure.getString(context.getContentResolver(), Secure.ANDROID_ID));
+        } catch (Exception e) {
+            return "N/A";
+        }
+    }
+
+    public static String sha1(String text) throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        MessageDigest md = MessageDigest.getInstance("SHA-1");
+        md.update(text.getBytes("iso-8859-1"), 0, text.length());
+        byte[] sha1hash = md.digest();
+        return convertToHex(sha1hash);
+    }
+
+    private static String convertToHex(byte[] data) {
+        StringBuilder buf = new StringBuilder();
+        for (byte b : data) {
+            int halfbyte = (b >>> 4) & 0x0F;
+            int two_halfs = 0;
+            do {
+                buf.append((0 <= halfbyte) && (halfbyte <= 9) ?
+                        (char) ('0' + halfbyte) : (char) ('a' + (halfbyte - 10)));
+                halfbyte = b & 0x0F;
+            } while (two_halfs++ < 1);
+        }
+        return buf.toString();
+    }
+
     public void finishGame() {
         String message = getGameOverMessage();
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
@@ -139,12 +185,23 @@ public class GameActivity extends Activity implements OnGestureListener {
             message = "HIGH SCORE!";
         }
         int avgScore = matches == 0 ? 0 : totalScore / matches;
+
+        // send stats to google analytics
+        tracker.send(MapBuilder
+                .createEvent("game_event",
+                        "score",
+                        getShaAndroidId(getApplicationContext()),
+                        (long) board.score())
+                .build());
+
+        // store stats
         SharedPreferences.Editor editor = settings.edit();
         editor.putInt("matches" + board.size(), matches);
         editor.putInt("highScore" + board.size(), highScore);
         editor.putInt("totalScore" + board.size(), totalScore);
         editor.commit();
 
+        // add result view
         RelativeLayout resultView = (RelativeLayout) findViewById(R.id.game_over_layout);
         resultView.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
         LayoutInflater.from(getApplicationContext()).inflate(R.layout.game_over, resultView, true);
@@ -209,6 +266,19 @@ public class GameActivity extends Activity implements OnGestureListener {
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
         return false;
+    }
+
+    // Google Analytics
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
 }

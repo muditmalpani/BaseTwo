@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class MainMenuActivity extends Activity {
 
@@ -39,5 +40,18 @@ public class MainMenuActivity extends Activity {
         Intent startIntent = new Intent(this.getApplicationContext(), GameActivity.class);
         startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         this.getApplicationContext().startActivity(startIntent);
+    }
+
+    // Google Analytics
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 }

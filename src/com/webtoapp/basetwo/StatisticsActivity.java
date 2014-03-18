@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class StatisticsActivity extends Activity {
 
@@ -62,5 +63,18 @@ public class StatisticsActivity extends Activity {
         highScore.setText(String.valueOf(stats.highScore));
         TextView avgScore = (TextView) findViewById(R.id.hard_avg_score);
         avgScore.setText(String.valueOf(stats.avgScore));
+    }
+
+    // Google Analytics
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 }

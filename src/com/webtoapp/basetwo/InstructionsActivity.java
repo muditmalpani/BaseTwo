@@ -3,6 +3,7 @@ package com.webtoapp.basetwo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class InstructionsActivity extends Activity {
 
@@ -25,6 +26,19 @@ public class InstructionsActivity extends Activity {
         ((TextView) findViewById(R.id.inst_gameplay)).setText(gameplayPara);
         ((TextView) findViewById(R.id.inst_objective)).setText(objectivePara);
         ((TextView) findViewById(R.id.inst_scoring)).setText(scoringPara);
+    }
+
+    // Google Analytics
+    @Override
+    public void onStart() {
+        super.onStart();
+        EasyTracker.getInstance(this).activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
 }
