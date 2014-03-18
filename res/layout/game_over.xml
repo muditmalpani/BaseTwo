@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="240dp"
+    android:layout_height="wrap_content"
+    android:layout_centerInParent="true"
+    android:gravity="center" >
+    
+    <TextView
+        android:id="@+id/result_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:textColor="#F14848" />
+    
+    <RelativeLayout 
+        android:id="@+id/score_view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/result_message"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/result_background" >
+        
+        <TextView
+            android:id="@+id/score_result_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="32sp"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/high_score_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/score_result_view"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        
+        <TextView
+            android:id="@+id/avg_score_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/high_score_view"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+    
+    <RelativeLayout
+        android:id="@+id/buttons_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/score_view_layout"
+        android:layout_marginTop="20dp"
+        android:gravity="center_horizontal" >
+        <Button
+            android:id="@+id/back_btn" 
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:background="#F14848"
+            android:textColor="#FFFFFF"
+            android:text="B" >
+        </Button>
+        
+        <Button
+            android:id="@+id/restart_btn" 
+            android:layout_height="40dp"
+            android:layout_width="40dp"
+            android:layout_toRightOf="@id/back_btn"
+            android:layout_marginLeft="20dp"
+            android:background="#F14848"
+            android:textColor="#FFFFFF"
+            android:text="R" >
+        </Button>
+    </RelativeLayout>
+    
+</RelativeLayout>

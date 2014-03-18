@@ -11,27 +11,15 @@
     tools:context=".LevelSelectActivity" >
 
     <Button
-        android:id="@+id/quit_btn"
-        android:layout_width="120dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:background="@drawable/button"
-        android:text="@string/menu_quit"
-        android:onClick="quitApp"
-        android:textColor="#ffffff" />
-
-    <Button
         android:id="@+id/level3_btn"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/quit_btn"
+        android:layout_alignParentBottom="true"
         android:layout_marginBottom="40dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/button"
         android:onClick="chooseLevel"
-        android:text="@string/menu_hard"
+        android:text="@string/level_hard"
         android:textColor="#ffffff" />
 
     <Button
@@ -43,7 +31,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/button"
         android:onClick="chooseLevel"
-        android:text="@string/menu_medium"
+        android:text="@string/level_medium"
         android:textColor="#ffffff" />
 
     <Button
@@ -55,7 +43,7 @@
         android:layout_marginBottom="40dp"
         android:background="@drawable/button"
         android:onClick="chooseLevel"
-        android:text="@string/menu_easy"
+        android:text="@string/level_easy"
         android:textColor="#ffffff" />
 
 </RelativeLayout>

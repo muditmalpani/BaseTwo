@@ -2,13 +2,20 @@
 <resources>
 
     <string name="app_name">Base Two</string>
-    <string name="levet_select_activity_title">Base Two</string>
+    <string name="main_menu_activity_title">Base Two</string>
+    <string name="stats_activity_title">Statistics</string>
+    <string name="instructions_activity_title">Instructions</string>
+    <string name="level_select_activity_title">Choose Level</string>
     <string name="game_activity_title">Base Two</string>
     <string name="action_settings">Settings</string>
-    <string name="menu_easy">Easy</string>
-    <string name="menu_medium">Medium</string>
-    <string name="menu_hard">Hard</string>
+    <string name="level_easy">Easy</string>
+    <string name="level_medium">Medium</string>
+    <string name="level_hard">Hard</string>
     <string name="menu_quit">Quit</string>
+    <string name="menu_stats">Stats</string>
+    <string name="menu_instructions">Instructions</string>
+    <string name="menu_levels">Levels</string>
+    <string name="menu_play">Play</string>
     <string name="score_header">SCORE</string>
 
 </resources>

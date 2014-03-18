@@ -32,11 +32,9 @@ public class GameActivity extends Activity implements OnGestureListener {
         // GestureDetector.OnGestureListener
         mDetector = new GestureDetectorCompat(this, this);
 
-        int size = 4;
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            size = extras.getInt("level") + 1;
-        }
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        int level = settings.getInt("level", 3);
+        int size = level + 1;
 
         TableLayout boardView = (TableLayout) findViewById(R.id.playBoard);
         board = new Board(size, this.getApplicationContext(), boardView);
