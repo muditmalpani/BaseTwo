@@ -42,6 +42,15 @@
             android:textSize="20sp" />
     </RelativeLayout>
     
+    <com.mopub.mobileads.MoPubView
+        android:id="@+id/game_adview"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp" >
+    </com.mopub.mobileads.MoPubView>
+    
     <RelativeLayout
         android:id="@+id/game_over_layout"
         android:layout_below="@id/scoreLayout"

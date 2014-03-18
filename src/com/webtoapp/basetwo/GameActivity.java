@@ -20,6 +20,7 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
+import com.mopub.mobileads.MoPubView;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -31,17 +32,21 @@ public class GameActivity extends Activity implements OnGestureListener {
     private Board board;
     private Tracker tracker;
     private GestureDetectorCompat mDetector;
+    private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        // Instantiate the gesture detector with the
-        // application context and an implementation of
+        // Instantiate the gesture detector with the application context and an implementation of
         // GestureDetector.OnGestureListener
         mDetector = new GestureDetectorCompat(this, this);
         tracker = GoogleAnalytics.getInstance(this).getTracker("UA-49097018-1");
+
+        moPubView = (MoPubView) findViewById(R.id.game_adview);
+        moPubView.setAdUnitId("edef7449ac8040048a2be832117c3609");
+        moPubView.loadAd();
 
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         int level = settings.getInt("level", 3);
@@ -68,6 +73,12 @@ public class GameActivity extends Activity implements OnGestureListener {
                         getShaAndroidId(getApplicationContext()),
                         null)
                 .build());
+    }
+
+    @Override
+    protected void onDestroy() {
+        moPubView.destroy();
+        super.onDestroy();
     }
 
     @Override

@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.mopub.mobileads.MoPubView;
 
 public class InstructionsActivity extends Activity {
+    private MoPubView moPubView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,16 @@ public class InstructionsActivity extends Activity {
         ((TextView) findViewById(R.id.inst_gameplay)).setText(gameplayPara);
         ((TextView) findViewById(R.id.inst_objective)).setText(objectivePara);
         ((TextView) findViewById(R.id.inst_scoring)).setText(scoringPara);
+
+        moPubView = (MoPubView) findViewById(R.id.inst_adview);
+        moPubView.setAdUnitId("a0459dba947a466a833db1ec27e04dc1");
+        moPubView.loadAd();
+    }
+
+    @Override
+    protected void onDestroy() {
+        moPubView.destroy();
+        super.onDestroy();
     }
 
     // Google Analytics
