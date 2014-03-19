@@ -1,6 +1,8 @@
 package com.webtoapp.basetwo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,8 @@ import android.widget.Button;
 import com.google.analytics.tracking.android.EasyTracker;
 
 public class LevelSelectActivity extends Activity {
+    public static final int ACTIVITY_CODE = 2;
+    private int level;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +19,7 @@ public class LevelSelectActivity extends Activity {
         setContentView(R.layout.activity_level_select);
 
         SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
-        int level = settings.getInt("level", 0);
+        level = settings.getInt("level", 3);
         Button b = null;
         switch (level) {
             case 1:
@@ -34,23 +38,47 @@ public class LevelSelectActivity extends Activity {
     }
 
     public void chooseLevel(View view) {
-        int level = 3;
+        int new_level = level;
         switch (view.getId()) {
             case R.id.level1_btn:
-                level = 1;
+                new_level = 1;
                 break;
             case R.id.level2_btn:
-                level = 2;
+                new_level = 2;
                 break;
             case R.id.level3_btn:
-                level = 3;
+                new_level = 3;
                 break;
         }
-        SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putInt("level", level);
-        editor.commit();
-        this.finish();
+        if (new_level != level) {
+            level = new_level;
+            final SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
+            if (settings.contains("board")) {
+                new AlertDialog.Builder(this)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Are you sure?")
+                        .setMessage("This will end your current saved game. Are you sure you want to change the level?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                settings.edit().putInt("level", level).remove("board").commit();
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        })
+                        .show();
+            } else {
+                settings.edit().putInt("level", level).commit();
+                finish();
+            }
+        } else {
+            finish();
+        }
     }
 
     // Google Analytics

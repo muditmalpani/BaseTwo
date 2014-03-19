@@ -1,208 +1,273 @@
-<?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0095D9"
-    android:stretchColumns="0,1" >
-    <TableRow 
+    android:orientation="vertical"
+    tools:context=".StatisticsActivity" >
+
+    <RelativeLayout
+        android:id="@+id/stat_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#50000000"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp" >
+        android:layout_height="55dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="#cccccc"
-            android:textSize="20sp"
-            android:text="Easy Level Stats" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
+            android:id="@+id/stat_header_text"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="Games Played" />
-        <TextView
-            android:id="@+id/easy_matches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    <TableRow 
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:text="Statistics"
+            android:textColor="#D12828"
+            android:textSize="38sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
+        android:layout_height="match_parent"
+        android:layout_below="@id/stat_header" >
+
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="High Score" />
-        <TextView
-            android:id="@+id/easy_high_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="Average Score" />
-        <TextView
-            android:id="@+id/easy_avg_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#50000000"
-        android:paddingLeft="5dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="#cccccc"
-            android:textSize="20sp"
-            android:text="Medium Level Stats" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="Games Played" />
-        <TextView
-            android:id="@+id/medium_matches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="High Score" />
-        <TextView
-            android:id="@+id/medium_high_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="Average Score" />
-        <TextView
-            android:id="@+id/medium_avg_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    
-    
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#50000000"
-        android:paddingLeft="3dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textColor="#cccccc"
-            android:textSize="20sp"
-            android:text="Hard Level Stats" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="Games Played" />
-        <TextView
-            android:id="@+id/hard_matches"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="High Score" />
-        <TextView
-            android:id="@+id/hard_high_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-    <TableRow 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="5dp" >
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp"
-            android:text="Average Score" />
-        <TextView
-            android:id="@+id/hard_avg_score"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#dddddd"
-            android:textSize="16sp" />
-    </TableRow>
-</TableLayout>
+            android:stretchColumns="0,1" >
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#50000000"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Easy Level Stats"
+                    android:textColor="#cccccc"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Games Played"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/easy_matches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="High Score"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/easy_high_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Average Score"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/easy_avg_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#50000000"
+                android:paddingBottom="5dp"
+                android:paddingLeft="5dp"
+                android:paddingTop="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Medium Level Stats"
+                    android:textColor="#cccccc"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Games Played"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/medium_matches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="High Score"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/medium_high_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Average Score"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/medium_avg_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#50000000"
+                android:paddingBottom="5dp"
+                android:paddingLeft="3dp"
+                android:paddingTop="10dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hard Level Stats"
+                    android:textColor="#cccccc"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Games Played"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hard_matches"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="High Score"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hard_high_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Average Score"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hard_avg_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+        </TableLayout>
+    </ScrollView>
+
+</RelativeLayout>

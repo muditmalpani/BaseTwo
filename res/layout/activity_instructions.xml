@@ -4,86 +4,121 @@
     android:layout_height="match_parent"
     android:background="#0095D9"
     android:orientation="vertical"
-    tools:context=".LevelSelectActivity" >
-    
-    <TextView 
-        android:id="@+id/inst_objective_header"
+    tools:context=".InstructionsActivity" >
+
+    <RelativeLayout
+        android:id="@+id/inst_header"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="55dp"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="3dp"
-        android:textStyle="bold"
-        android:textColor="#dddddd"
-        android:textSize="20sp"
-        android:text="Objective:" />
-    
-    <TextView 
-        android:id="@+id/inst_objective"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/inst_objective_header"
-        android:textColor="#dddddd"
-        android:textSize="16sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp" />
-    
-    <TextView 
-        android:id="@+id/inst_gameplay_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/inst_objective"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="3dp"
-        android:textStyle="bold"
-        android:textColor="#dddddd"
-        android:textSize="20sp"
-        android:text="GamePlay:" />
-    
-    <TextView 
-        android:id="@+id/inst_gameplay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/inst_gameplay_header"
-        android:textColor="#dddddd"
-        android:textSize="16sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp" />
-    
-    <TextView 
-        android:id="@+id/inst_scoring_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/inst_gameplay"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="3dp"
-        android:textStyle="bold"
-        android:textColor="#dddddd"
-        android:textSize="20sp"
-        android:text="Scoring:" />
-    
-    <TextView 
-        android:id="@+id/inst_scoring"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/inst_scoring_header"
-        android:textColor="#dddddd"
-        android:textSize="16sp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp" />
-    
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/inst_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:gravity="center_vertical"
+            android:text="Instructions"
+            android:textColor="#D12828"
+            android:textSize="38sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
     <com.mopub.mobileads.MoPubView
         android:id="@+id/inst_adview"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:layout_marginTop="0dp" >
     </com.mopub.mobileads.MoPubView>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/inst_adview"
+        android:layout_below="@id/inst_header" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp" >
+
+            <TextView
+                android:id="@+id/inst_objective_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:text="Objective:"
+                android:textColor="#dddddd"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/inst_objective"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_objective_header"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#dddddd"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/inst_gameplay_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_objective"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:text="GamePlay:"
+                android:textColor="#dddddd"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/inst_gameplay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_gameplay_header"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#dddddd"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/inst_scoring_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_gameplay"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:text="Scoring:"
+                android:textColor="#dddddd"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/inst_scoring"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_scoring_header"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#dddddd"
+                android:textSize="18sp" />
+        </RelativeLayout>
+    </ScrollView>
+
 </RelativeLayout>

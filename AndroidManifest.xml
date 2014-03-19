@@ -14,12 +14,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.webtoapp.basetwo.MainMenuActivity"
-            android:label="@string/main_menu_activity_title" >
+            android:label="@string/main_menu_activity_title"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,6 +30,7 @@
         <activity
             android:name="com.webtoapp.basetwo.GameActivity"
             android:label="@string/game_activity_title"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:parentActivityName="com.webtoapp.basetwo.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -37,6 +39,7 @@
         <activity
             android:name="com.webtoapp.basetwo.LevelSelectActivity"
             android:label="@string/level_select_activity_title"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:parentActivityName="com.webtoapp.basetwo.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -45,6 +48,7 @@
         <activity
             android:name="com.webtoapp.basetwo.StatisticsActivity"
             android:label="@string/stats_activity_title"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:parentActivityName="com.webtoapp.basetwo.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -53,6 +57,7 @@
         <activity
             android:name="com.webtoapp.basetwo.InstructionsActivity"
             android:label="@string/instructions_activity_title"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:parentActivityName="com.webtoapp.basetwo.MainMenuActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

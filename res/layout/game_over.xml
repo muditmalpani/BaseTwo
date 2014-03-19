@@ -63,25 +63,26 @@
         android:layout_below="@id/score_view_layout"
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal" >
-        <Button
+        <ImageButton
             android:id="@+id/back_btn" 
-            android:layout_height="40dp"
-            android:layout_width="40dp"
-            android:background="#F14848"
-            android:textColor="#FFFFFF"
-            android:text="B" >
-        </Button>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/menu"
+            android:textColor="#FFFFFF" >
+        </ImageButton>
         
-        <Button
-            android:id="@+id/restart_btn" 
-            android:layout_height="40dp"
-            android:layout_width="40dp"
+        <ImageButton
+            android:id="@+id/restart_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
             android:layout_toRightOf="@id/back_btn"
-            android:layout_marginLeft="20dp"
-            android:background="#F14848"
-            android:textColor="#FFFFFF"
-            android:text="R" >
-        </Button>
+            android:background="@android:color/transparent"
+            android:src="@drawable/restart"
+            android:textColor="#FFFFFF" >
+
+        </ImageButton>
     </RelativeLayout>
     
 </RelativeLayout>

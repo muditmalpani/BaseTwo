@@ -1,12 +1,16 @@
 package com.webtoapp.basetwo;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Board {
     private Cell[][] cells;
@@ -16,14 +20,64 @@ public class Board {
     private int numEmptyCells;
     private int score;
 
-    public Board(int size, Context context, TableLayout view) {
+    public static Board init(SharedPreferences settings, Context context, TableLayout view) {
+        int level = settings.getInt("level", 3);
+        int size = level + 1;
+
+        String boardStr = settings.getString("board", null);
+        if (boardStr != null) {
+            try {
+                JSONObject json = new JSONObject(boardStr);
+                return new Board(json, context, view);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        Board b = new Board(size, context, view);
+        b.addCells();
+        b.addValueToRandomPosition();
+        b.addValueToRandomPosition();
+        return b;
+    }
+
+    private Board(JSONObject json, Context context, TableLayout view) throws JSONException {
+        size = json.getInt("size");
+        numEmptyCells = json.getInt("numEmptyCells");
+        score = json.getInt("score");
+        boardView = view;
+        this.context = context;
+        cells = new Cell[size][size];
+        String board = json.getString("board");
+        parseBoardStr(board);
+    }
+
+    private Board(int size, Context context, TableLayout view) {
         this.size = size;
         cells = new Cell[size][size];
         boardView = view;
-        view.setPadding(10, 10, 10, 10);
         this.context = context;
         numEmptyCells = size * size;
         score = 0;
+    }
+
+    public void parseBoardStr(String board) {
+        String[] rows = board.split("\n");
+        int i = 0;
+        for (String row : rows) {
+            TableRow tr = new TableRow(context);
+            tr.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+            String[] cellsInRow = row.split(",");
+            int j = 0;
+            for (String cell : cellsInRow) {
+                Cell c = new Cell(context);
+                c.setValue(Integer.valueOf(cell));
+                cells[i][j] = c;
+                tr.addView(c.view);
+                j++;
+            }
+            boardView.addView(tr);
+            i++;
+        }
     }
 
     public void addCells() {
@@ -73,7 +127,6 @@ public class Board {
 
     // returns true if no further move is possible
     public boolean isFull() {
-        Log.i("BaseTwo", "empty cells: " + numEmptyCells);
         if (numEmptyCells != 0) {
             return false;
         }
@@ -237,5 +290,24 @@ public class Board {
         }
         numEmptyCells = size * size;
         score = 0;
+    }
+
+    public String toString() {
+        String[] boardRows = new String[size];
+        for (int row = 0; row < size; row++) {
+            boardRows[row] = StringUtils.join(cells[row], ',');
+        }
+        String boardStr = StringUtils.join(boardRows, '\n');
+        JSONObject json = new JSONObject();
+        try {
+            json.put("size", size);
+            json.put("score", score);
+            json.put("numEmptyCells", numEmptyCells);
+            json.put("board", boardStr);
+        } catch (JSONException e) {
+            Log.w("BaseTwo", e);
+            e.printStackTrace();
+        }
+        return json.toString();
     }
 }

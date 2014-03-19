@@ -93,4 +93,8 @@ public class Cell {
     private static int logBase2(int a) {
         return (int) (Math.log(a) / Math.log(2));
     }
+
+    public String toString() {
+        return String.valueOf(value);
+    }
 }
