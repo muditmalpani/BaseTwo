@@ -38,7 +38,7 @@ public class GameActivity extends Activity implements OnGestureListener {
     private GestureDetectorCompat mDetector;
     private MoPubView moPubView;
     private SharedPreferences settings;
-    private boolean isOver;
+    private boolean gameOver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +97,7 @@ public class GameActivity extends Activity implements OnGestureListener {
     }
 
     public void startGame() {
-        isOver = false;
+        gameOver = false;
         tracker.send(MapBuilder
                 .createEvent("game_event",
                         "start",
@@ -126,7 +126,7 @@ public class GameActivity extends Activity implements OnGestureListener {
     }
 
     public void finishGame() {
-        isOver = true;
+        gameOver = true;
         String message = getGameOverMessage();
         int matches = settings.getInt("matches" + board.size(), 0);
         int highScore = settings.getInt("highScore" + board.size(), 0);
@@ -194,13 +194,15 @@ public class GameActivity extends Activity implements OnGestureListener {
 
         // reset the board
         board.resetBoard();
+        board.addValueToRandomPosition();
+        board.addValueToRandomPosition();
         startGame();
         displayScore();
     }
 
     @Override
     public void onBackPressed() {
-        if (!board.isFull()) {
+        if (!gameOver) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Save Game?")

@@ -11,10 +11,10 @@
   <bool name="ga_reportUncaughtExceptions">true</bool>
   
   <!--The screen names that will appear in reports-->
-  <string name="com.webtoapp.MainMenuActivity">Main Menu</string>
-  <string name="com.webtoapp.GameActivity">Game</string>
-  <string name="com.webtoapp.LevelSelectActivity">Level</string>
-  <string name="com.webtoapp.InstructionsActivity">Instructions</string>
-  <string name="com.webtoapp.StatisticsActivity">Stats</string>
+  <string name="com.webtoapp.basetwo.MainMenuActivity">Main Menu</string>
+  <string name="com.webtoapp.basetwo.GameActivity">Game</string>
+  <string name="com.webtoapp.basetwo.LevelSelectActivity">Level</string>
+  <string name="com.webtoapp.basetwo.InstructionsActivity">Instructions</string>
+  <string name="com.webtoapp.basetwo.StatisticsActivity">Stats</string>
 
 </resources>
