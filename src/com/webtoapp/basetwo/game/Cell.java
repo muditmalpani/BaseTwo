@@ -1,8 +1,10 @@
-package com.webtoapp.basetwo;
+package com.webtoapp.basetwo.game;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -50,10 +52,14 @@ public class Cell {
 
     private TextView getCellView(Context context) {
         TextView v = new TextView(context);
-        TableRow.LayoutParams params = new TableRow.LayoutParams(130, 130);
-        params.setMargins(10, 10, 10, 10);
+        Resources r = context.getResources();
+        int cellWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 60, r.getDisplayMetrics());
+        int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, r.getDisplayMetrics());
+        int textSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 15, r.getDisplayMetrics());
+        TableRow.LayoutParams params = new TableRow.LayoutParams(cellWidth, cellWidth);
+        params.setMargins(margin, margin, margin, margin);
         v.setLayoutParams(params);
-        v.setTextSize(30);
+        v.setTextSize(textSize);
         v.setTextColor(Color.parseColor(cellTextColor));
         v.setBackgroundColor(Color.parseColor(cellColor));
         v.setGravity(Gravity.CENTER);

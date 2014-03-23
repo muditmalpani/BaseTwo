@@ -17,12 +17,12 @@ public class InstructionsActivity extends Activity {
         String gameplayPara = "Swipe up/down/left/right to move the tiles in the corresponding direction. "
                 + "Two adjacent tiles with same number in direction of the swipe combine to form a single tile "
                 + "with value double of the original value.";
-        String objectivePara = "This is a puzzle which contains a square board with where each tile can hold a number "
-                + "which is multiple of two. The objective of the game is two combine these tiles to get the maximum "
+        String objectivePara = "This is a puzzle which contains a square board where each tile can hold a number "
+                + "which is multiple of two. The objective of the game is to combine these tiles to get the maximum "
                 + "value in a single tile.";
-        String scoringPara = "Your score is computed based on the total tiles you combine. "
-                + "For every combined tiles, your score in incremented by the number on the new tile created "
-                + "by combining the tiles. You are rated based on your average score across the games played "
+        String scoringPara = "Your score is computed based on the value of the tiles you combine. "
+                + "For every combined pair of tiles, your score is incremented by the value of the new tile created. "
+                + "You are rated based on your average score across the games played "
                 + "and your hightest score at each level";
 
         ((TextView) findViewById(R.id.inst_gameplay)).setText(gameplayPara);

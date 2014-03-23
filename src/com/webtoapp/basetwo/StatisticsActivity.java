@@ -12,6 +12,7 @@ public class StatisticsActivity extends Activity {
         public int matches;
         public int highScore;
         public int avgScore;
+        public int highestTile;
     }
 
     @Override
@@ -19,7 +20,7 @@ public class StatisticsActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
+        SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, MODE_PRIVATE);
         setEasyStats(settings);
         setMediumStats(settings);
         setHardStats(settings);
@@ -30,6 +31,7 @@ public class StatisticsActivity extends Activity {
         Stats stats = new Stats();
         stats.matches = settings.getInt("matches" + size, 0);
         stats.highScore = settings.getInt("highScore" + size, 0);
+        stats.highestTile = settings.getInt("highestTile" + size, 0);
         int totalScore = settings.getInt("totalScore" + size, 0);
         stats.avgScore = stats.matches == 0 ? 0 : totalScore / stats.matches;
         return stats;
@@ -41,6 +43,8 @@ public class StatisticsActivity extends Activity {
         matches.setText(String.valueOf(stats.matches));
         TextView highScore = (TextView) findViewById(R.id.easy_high_score);
         highScore.setText(String.valueOf(stats.highScore));
+        TextView highestTile = (TextView) findViewById(R.id.easy_high_tile);
+        highestTile.setText(String.valueOf(stats.highestTile));
         TextView avgScore = (TextView) findViewById(R.id.easy_avg_score);
         avgScore.setText(String.valueOf(stats.avgScore));
     }
@@ -51,6 +55,8 @@ public class StatisticsActivity extends Activity {
         matches.setText(String.valueOf(stats.matches));
         TextView highScore = (TextView) findViewById(R.id.medium_high_score);
         highScore.setText(String.valueOf(stats.highScore));
+        TextView highestTile = (TextView) findViewById(R.id.medium_high_tile);
+        highestTile.setText(String.valueOf(stats.highestTile));
         TextView avgScore = (TextView) findViewById(R.id.medium_avg_score);
         avgScore.setText(String.valueOf(stats.avgScore));
     }
@@ -61,6 +67,8 @@ public class StatisticsActivity extends Activity {
         matches.setText(String.valueOf(stats.matches));
         TextView highScore = (TextView) findViewById(R.id.hard_high_score);
         highScore.setText(String.valueOf(stats.highScore));
+        TextView highestTile = (TextView) findViewById(R.id.hard_high_tile);
+        highestTile.setText(String.valueOf(stats.highestTile));
         TextView avgScore = (TextView) findViewById(R.id.hard_avg_score);
         avgScore.setText(String.valueOf(stats.avgScore));
     }

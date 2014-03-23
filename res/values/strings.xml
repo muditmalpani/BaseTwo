@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_id">1453866754846254</string>
     <string name="app_name">Base Two</string>
     <string name="main_menu_activity_title">Base Two</string>
     <string name="stats_activity_title">Statistics</string>

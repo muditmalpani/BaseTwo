@@ -54,7 +54,7 @@ public class LevelSelectActivity extends Activity {
             level = new_level;
             final SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
             if (settings.contains("board")) {
-                new AlertDialog.Builder(this)
+                new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Are you sure?")
                         .setMessage("This will end your current saved game. Are you sure you want to change the level?")

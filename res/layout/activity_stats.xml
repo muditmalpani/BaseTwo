@@ -93,6 +93,26 @@
                     android:textColor="#dddddd"
                     android:textSize="18sp" />
             </TableRow>
+            
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Highest Tile"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/easy_high_tile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -170,6 +190,26 @@
                     android:textColor="#dddddd"
                     android:textSize="18sp" />
             </TableRow>
+            
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Highest Tile"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/medium_high_tile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
@@ -242,6 +282,26 @@
 
                 <TextView
                     android:id="@+id/hard_high_score"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+            </TableRow>
+            
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dp" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Highest Tile"
+                    android:textColor="#dddddd"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/hard_high_tile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="#dddddd"
