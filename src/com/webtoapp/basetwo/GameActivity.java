@@ -25,9 +25,14 @@ import com.google.analytics.tracking.android.EasyTracker;
 import com.google.analytics.tracking.android.GoogleAnalytics;
 import com.google.analytics.tracking.android.MapBuilder;
 import com.google.analytics.tracking.android.Tracker;
+import com.google.gson.Gson;
 import com.mopub.mobileads.MoPubView;
-import com.webtoapp.basetwo.game.Board;
+import com.webtoapp.basetwo.game.GameLevel;
+import com.webtoapp.basetwo.game.GameStats;
 import com.webtoapp.basetwo.game.SwipeDirection;
+import com.webtoapp.basetwo.game.UserLevelStats;
+import com.webtoapp.basetwo.game.boards.Board;
+import com.webtoapp.basetwo.game.boards.Boards;
 import com.webtoapp.basetwo.utils.BaseUtils;
 import com.webtoapp.basetwo.utils.GameUtils;
 
@@ -36,10 +41,11 @@ public class GameActivity extends Activity implements OnGestureListener {
     public static final String PREFS_NAME = "AppPrefsFile";
 
     private Board board;
-    private int level;
+    private GameLevel gameLevel;
     private boolean gameOver;
     private SharedPreferences settings;
     private GestureDetectorCompat mDetector;
+    private GameStats gameStats;
 
     private MoPubView moPubView;
 
@@ -66,12 +72,42 @@ public class GameActivity extends Activity implements OnGestureListener {
 
         settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
 
-        level = settings.getInt("level", 3);
+        String userStatsStr = settings.getString("stats", null);
+        if (userStatsStr == null) {
+            gameStats = new GameStats();
+        } else {
+            Gson gson = new Gson();
+            gameStats = gson.fromJson(userStatsStr, GameStats.class);
+        }
+        addOldStatsIfPresent();
+
+        gameLevel = GameLevel.fromId(gameStats.gameLevel);
 
         TableLayout boardView = (TableLayout) findViewById(R.id.playBoard);
-        board = Board.init(settings, this.getApplicationContext(), boardView);
+        board = Boards.init(settings, this.getApplicationContext(), boardView, gameLevel);
         displayScore();
         startGame();
+    }
+
+    private void addOldStatsIfPresent() {
+        SharedPreferences.Editor editor = settings.edit();
+        for (GameLevel level : GameLevel.values()) {
+            int levelId = level.levelId;
+            int matches = settings.getInt("matches" + levelId, 0);
+            if (matches > 0) {
+                UserLevelStats stats = new UserLevelStats();
+                stats.totalMatches = matches;
+                stats.highestScore = settings.getInt("highScore" + levelId, 0);
+                stats.totalScore = settings.getInt("totalScore" + levelId, 0);
+                stats.highestTile = settings.getInt("highestTile" + levelId, 0);
+                gameStats.addOldUserStats(level, stats);
+                editor.remove("matches" + levelId)
+                        .remove("highScore" + levelId)
+                        .remove("totalScore" + levelId)
+                        .remove("highestTile" + levelId);
+            }
+        }
+        editor.commit();
     }
 
     public void displayScore() {
@@ -89,50 +125,21 @@ public class GameActivity extends Activity implements OnGestureListener {
                 .build());
     }
 
-    public void finishGame() {
-        gameOver = true;
-        String message = GameUtils.getGameOverMessage(board, level);
-        int matches = settings.getInt("matches" + board.size(), 0);
-        int highScore = settings.getInt("highScore" + board.size(), 0);
-        int totalScore = settings.getInt("totalScore" + board.size(), 0);
-        int highestTile = settings.getInt("highestTile" + board.size(), 0);
+    private void updateStats() {
+        gameStats.updateUserStatsForGame(gameLevel, board.score(), board.highestTile());
 
-        // update scores if score > 0
-        if (board.score() > 0) {
-            matches += 1;
-            totalScore += board.score();
-            if (board.score() > highScore) {
-                highScore = board.score();
-                message = "HIGH SCORE!";
-            }
+        // store stats & delete the stored board
+        settings.edit()
+                .putString("stats", gameStats.toString())
+                .remove("board")
+                .commit();
+    }
 
-            highestTile = Math.max(highestTile, board.highestTile());
-
-            // store stats & delete the stored board
-            SharedPreferences.Editor editor = settings.edit();
-            editor.putInt("matches" + board.size(), matches)
-                    .putInt("highScore" + board.size(), highScore)
-                    .putInt("totalScore" + board.size(), totalScore)
-                    .putInt("highestTile" + board.size(), highestTile)
-                    .remove("board")
-                    .commit();
-        }
-        int avgScore = matches == 0 ? 0 : totalScore / matches;
-
-        // send stats to google analytics
-        tracker.send(MapBuilder
-                .createEvent("game_event",
-                        "score_" + board.size(),
-                        BaseUtils.getShaAndroidId(getApplicationContext()),
-                        (long) board.score())
-                .build());
-
-        tracker.send(MapBuilder
-                .createEvent("high_tile_event_" + board.size(),
-                        String.valueOf(board.highestTile()),
-                        BaseUtils.getShaAndroidId(getApplicationContext()),
-                        (long) board.score())
-                .build());
+    private void showGameOverScreen() {
+        String message = GameUtils.getGameOverMessage(board, gameLevel.levelId,
+                gameStats.getUserStatsForLevel(gameLevel));
+        UserLevelStats stats = gameStats.getUserStatsForLevel(gameLevel);
+        int avgScore = stats.totalMatches == 0 ? 0 : stats.totalScore / stats.totalMatches;
 
         // add result view
         RelativeLayout resultView = (RelativeLayout) findViewById(R.id.game_over_layout);
@@ -144,7 +151,7 @@ public class GameActivity extends Activity implements OnGestureListener {
         TextView highTileView = (TextView) findViewById(R.id.highest_tile_view);
         highTileView.setText("Highest Tile: " + board.highestTile());
         TextView highScoreView = (TextView) findViewById(R.id.high_score_view);
-        highScoreView.setText("High Score: " + String.valueOf(highScore));
+        highScoreView.setText("High Score: " + String.valueOf(stats.highestScore));
         TextView avgScoreView = (TextView) findViewById(R.id.avg_score_view);
         avgScoreView.setText("Average Score: " + String.valueOf(avgScore));
         TextView messageView = (TextView) findViewById(R.id.result_message);
@@ -190,6 +197,31 @@ public class GameActivity extends Activity implements OnGestureListener {
                 finish();
             }
         });
+    }
+
+    public void finishGame() {
+        gameOver = true;
+
+        if (board.score() > 0) {
+            updateStats();
+        }
+
+        showGameOverScreen();
+
+        // send stats to google analytics
+        tracker.send(MapBuilder
+                .createEvent("game_event",
+                        "score_" + gameLevel.levelId,
+                        BaseUtils.getShaAndroidId(getApplicationContext()),
+                        (long) board.score())
+                .build());
+
+        tracker.send(MapBuilder
+                .createEvent("high_tile_event_" + gameLevel.levelId,
+                        String.valueOf(board.highestTile()),
+                        BaseUtils.getShaAndroidId(getApplicationContext()),
+                        (long) board.score())
+                .build());
     }
 
     public void restartGame() {
@@ -270,7 +302,10 @@ public class GameActivity extends Activity implements OnGestureListener {
         if (board.isFull()) {
             return false;
         }
-        SwipeDirection direction = GameUtils.getDirection(e1, e2, velocityX, velocityY);
+        SwipeDirection direction = GameUtils.getDirection(e1, e2, velocityX, velocityY, gameLevel.directionType);
+        if (direction != null) {
+            Log.i("BaseTwo", direction.name());
+        }
         boolean didMove = board.update(direction);
         if (didMove) {
             board.addValueToRandomPosition();

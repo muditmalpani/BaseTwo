@@ -78,6 +78,19 @@
                 android:text="@string/level_hard"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
+            
+            <Button
+                android:id="@+id/level4_btn"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/level3_btn"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="40dp"
+                android:background="@drawable/button"
+                android:onClick="chooseLevel"
+                android:text="@string/level_hex"
+                android:textColor="#ffffff"
+                android:textSize="18sp" />
         </RelativeLayout>
     </RelativeLayout>
 

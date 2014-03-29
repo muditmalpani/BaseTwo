@@ -19,14 +19,17 @@ public class LevelSelectActivity extends Activity {
         setContentView(R.layout.activity_level_select);
 
         SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
-        level = settings.getInt("level", 3);
+        level = settings.getInt("level", 4);
         Button b = null;
         switch (level) {
-            case 1:
+            case 2:
                 b = (Button) findViewById(R.id.level1_btn);
                 break;
-            case 2:
+            case 5:
                 b = (Button) findViewById(R.id.level2_btn);
+                break;
+            case 6:
+                b = (Button) findViewById(R.id.level4_btn);
                 break;
             default:
                 b = (Button) findViewById(R.id.level3_btn);
@@ -41,13 +44,16 @@ public class LevelSelectActivity extends Activity {
         int new_level = level;
         switch (view.getId()) {
             case R.id.level1_btn:
-                new_level = 1;
-                break;
-            case R.id.level2_btn:
                 new_level = 2;
                 break;
+            case R.id.level2_btn:
+                new_level = 5;
+                break;
             case R.id.level3_btn:
-                new_level = 3;
+                new_level = 4;
+                break;
+            case R.id.level4_btn:
+                new_level = 6;
                 break;
         }
         if (new_level != level) {

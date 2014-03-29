@@ -4,12 +4,14 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.GradientDrawable;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.TableRow;
 import android.widget.TextView;
+import com.webtoapp.basetwo.R;
 
-public class Cell {
+public final class Cell {
     private static String[] cellColors = {
         "#EDE0C8",//2
         "#EDE0B8",//4
@@ -61,7 +63,7 @@ public class Cell {
         v.setLayoutParams(params);
         v.setTextSize(textSize);
         v.setTextColor(Color.parseColor(cellTextColor));
-        v.setBackgroundColor(Color.parseColor(cellColor));
+        v.setBackgroundResource(R.drawable.circular_cell);
         v.setGravity(Gravity.CENTER);
         v.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
         return v;
@@ -71,7 +73,8 @@ public class Cell {
         if (value > 0) {
             view.setText(String.valueOf(value));
             int colorIndex = logBase2(value) - 1;
-            view.setBackgroundColor(Color.parseColor(cellColors[colorIndex]));
+            GradientDrawable drawable = (GradientDrawable) view.getBackground();
+            drawable.setColor(Color.parseColor(cellColors[colorIndex]));
             if (value < 10) {
                 view.setTextColor(Color.parseColor("#776666"));
             } else {
@@ -86,14 +89,16 @@ public class Cell {
             }
         } else {
             view.setText("");
-            view.setBackgroundColor(Color.parseColor(cellColor));
+            GradientDrawable drawable = (GradientDrawable) view.getBackground();
+            drawable.setColor(Color.parseColor(cellColor));
         }
     }
 
     public void makeEmpty() {
         value = 0;
         view.setText("");
-        view.setBackgroundColor(Color.parseColor(cellColor));
+        GradientDrawable drawable = (GradientDrawable) view.getBackground();
+        drawable.setColor(Color.parseColor(cellColor));
     }
 
     private static int logBase2(int a) {

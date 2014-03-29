@@ -12,6 +12,7 @@
     <string name="level_easy">Easy</string>
     <string name="level_medium">Medium</string>
     <string name="level_hard">Hard</string>
+    <string name="level_hex">Hex</string>
     <string name="menu_quit">Quit</string>
     <string name="menu_stats">Stats</string>
     <string name="menu_instructions">Instructions</string>
