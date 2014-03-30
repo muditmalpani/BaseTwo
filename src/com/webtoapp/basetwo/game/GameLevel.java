@@ -3,11 +3,11 @@ package com.webtoapp.basetwo.game;
 import android.util.SparseArray;
 
 public enum GameLevel {
-    BEGINNER(2, "Beginner", DirectionType.CARTESIAN),
-    INTERMEDIATE(4, "Intermediate", DirectionType.CARTESIAN),
-    TRIMEDIATE(5, "TriMediate", DirectionType.DIAGONAL),
-    HEXAMDIATE(6, "Hexamediate", DirectionType.DIAGONAL),
-    EXPERT(7, "Expert", DirectionType.CARTESIAN);
+    BEGINNER(2, "Beginner", DirectionType.CARTESIAN, 21, 50, 59),
+    INTERMEDIATE(4, "Intermediate", DirectionType.CARTESIAN, 6000, 20000, 35000),
+    TRIMEDIATE(5, "TriMediate", DirectionType.DIAGONAL, 15000, 40000, 70000),
+    HEXAMDIATE(6, "Hexamediate", DirectionType.DIAGONAL, 30000, 80000, 150000),
+    EXPERT(7, "Expert", DirectionType.CARTESIAN, 2000, 8000, 15000);
 
     public int levelId;
     public String name;
@@ -16,10 +16,14 @@ public enum GameLevel {
     public int goodScoreLimit;
     public int excellentScoreLimit;
 
-    private GameLevel(int level, String name, DirectionType directionType) {
+    private GameLevel(int level, String name, DirectionType directionType, int avgScoreLimit, int goodScoreLimit,
+            int excellentScoreLimit) {
         this.levelId = level;
         this.name = name;
         this.directionType = directionType;
+        this.averageScoreLimit = avgScoreLimit;
+        this.goodScoreLimit = goodScoreLimit;
+        this.excellentScoreLimit = excellentScoreLimit;
     }
 
     private static final SparseArray<GameLevel> levelIdToGameLevel =

@@ -106,6 +106,8 @@ public class GameActivity extends Activity implements OnGestureListener {
     private void updateStats() {
         gameStats.updateUserStatsForGame(gameLevel, board.score(), board.highestTile());
 
+        // update points and userLevel
+
         // store stats & delete the stored board
         settings.edit()
                 .putString("stats", gameStats.toString())
@@ -114,7 +116,7 @@ public class GameActivity extends Activity implements OnGestureListener {
     }
 
     private void showGameOverScreen() {
-        String message = GameUtils.getGameOverMessage(board, gameLevel.levelId,
+        String message = GameUtils.getGameOverMessage(board.score(), gameLevel,
                 gameStats.getUserStatsForLevel(gameLevel));
         UserLevelStats stats = gameStats.getUserStatsForLevel(gameLevel);
         int avgScore = stats.totalMatches == 0 ? 0 : stats.totalScore / stats.totalMatches;

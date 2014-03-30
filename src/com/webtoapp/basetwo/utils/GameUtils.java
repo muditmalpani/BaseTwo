@@ -2,9 +2,9 @@ package com.webtoapp.basetwo.utils;
 
 import android.view.MotionEvent;
 import com.webtoapp.basetwo.game.DirectionType;
+import com.webtoapp.basetwo.game.GameLevel;
 import com.webtoapp.basetwo.game.SwipeDirection;
 import com.webtoapp.basetwo.game.UserLevelStats;
-import com.webtoapp.basetwo.game.boards.Board;
 
 
 public class GameUtils {
@@ -12,24 +12,17 @@ public class GameUtils {
     private static final int SWIPE_MIN_SECONDARY_DISTANCE = 80;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
-    public static String getGameOverMessage(Board board, int level, UserLevelStats stats) {
+    public static String getGameOverMessage(int score, GameLevel level, UserLevelStats stats) {
         String message = "GAME OVER!";
-        int lowerLimit = 21;
-        int upperLimit = 50;
-        if (level == 2) {
-            lowerLimit = 500;
-            upperLimit = 1100;
-        } else if (level == 3) {
-            lowerLimit = 18000;
-            upperLimit = 25000;
-        }
-        if (board.score() > upperLimit) {
-            message = "EXCELLENT!";
-        } else if (board.score() > lowerLimit) {
+        if (score > level.averageScoreLimit) {
+            message = "AVERAGE";
+        } else if (score > level.goodScoreLimit) {
             message = "WELL DONE!";
+        } else if (score > level.excellentScoreLimit) {
+            message = "EXCELLENT!";
         }
 
-        if (stats.highestScore <= board.score()) {
+        if (stats.highestScore <= score) {
             message = "HIGH SCORE!";
         }
         return message;
