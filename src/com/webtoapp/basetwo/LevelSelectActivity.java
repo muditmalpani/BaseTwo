@@ -26,13 +26,13 @@ public class LevelSelectActivity extends Activity {
                 b = (Button) findViewById(R.id.level1_btn);
                 break;
             case 5:
-                b = (Button) findViewById(R.id.level2_btn);
+                b = (Button) findViewById(R.id.level3_btn);
                 break;
             case 6:
                 b = (Button) findViewById(R.id.level4_btn);
                 break;
             default:
-                b = (Button) findViewById(R.id.level3_btn);
+                b = (Button) findViewById(R.id.level2_btn);
                 break;
         }
         if (b != null) {
@@ -47,10 +47,10 @@ public class LevelSelectActivity extends Activity {
                 new_level = 2;
                 break;
             case R.id.level2_btn:
-                new_level = 5;
+                new_level = 4;
                 break;
             case R.id.level3_btn:
-                new_level = 4;
+                new_level = 5;
                 break;
             case R.id.level4_btn:
                 new_level = 6;

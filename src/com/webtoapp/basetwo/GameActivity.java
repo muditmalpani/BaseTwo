@@ -79,7 +79,6 @@ public class GameActivity extends Activity implements OnGestureListener {
             Gson gson = new Gson();
             gameStats = gson.fromJson(userStatsStr, GameStats.class);
         }
-        addOldStatsIfPresent();
 
         gameLevel = GameLevel.fromId(gameStats.gameLevel);
 
@@ -87,27 +86,6 @@ public class GameActivity extends Activity implements OnGestureListener {
         board = Boards.init(settings, this.getApplicationContext(), boardView, gameLevel);
         displayScore();
         startGame();
-    }
-
-    private void addOldStatsIfPresent() {
-        SharedPreferences.Editor editor = settings.edit();
-        for (GameLevel level : GameLevel.values()) {
-            int levelId = level.levelId;
-            int matches = settings.getInt("matches" + levelId, 0);
-            if (matches > 0) {
-                UserLevelStats stats = new UserLevelStats();
-                stats.totalMatches = matches;
-                stats.highestScore = settings.getInt("highScore" + levelId, 0);
-                stats.totalScore = settings.getInt("totalScore" + levelId, 0);
-                stats.highestTile = settings.getInt("highestTile" + levelId, 0);
-                gameStats.addOldUserStats(level, stats);
-                editor.remove("matches" + levelId)
-                        .remove("highScore" + levelId)
-                        .remove("totalScore" + levelId)
-                        .remove("highestTile" + levelId);
-            }
-        }
-        editor.commit();
     }
 
     public void displayScore() {

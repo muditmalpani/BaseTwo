@@ -12,6 +12,9 @@ public enum GameLevel {
     public int levelId;
     public String name;
     public DirectionType directionType;
+    public int averageScoreLimit;
+    public int goodScoreLimit;
+    public int excellentScoreLimit;
 
     private GameLevel(int level, String name, DirectionType directionType) {
         this.levelId = level;

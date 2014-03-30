@@ -9,10 +9,11 @@
     <string name="level_select_activity_title">Choose Level</string>
     <string name="game_activity_title">Base Two</string>
     <string name="action_settings">Settings</string>
-    <string name="level_easy">Easy</string>
-    <string name="level_medium">Medium</string>
-    <string name="level_hard">Hard</string>
-    <string name="level_hex">Hex</string>
+    <string name="level_beginner">Easy</string>
+    <string name="level_inter">Intermedaite</string>
+    <string name="level_tri">Trimediate</string>
+    <string name="level_hex">Hexamediate</string>
+    <string name="level_expert">Expert</string>
     <string name="menu_quit">Quit</string>
     <string name="menu_stats">Stats</string>
     <string name="menu_instructions">Instructions</string>

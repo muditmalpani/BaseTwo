@@ -2,18 +2,20 @@ package com.webtoapp.basetwo;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.gson.Gson;
+import com.webtoapp.basetwo.game.GameLevel;
+import com.webtoapp.basetwo.game.GameStats;
+import com.webtoapp.basetwo.game.UserLevelStats;
 
 public class StatisticsActivity extends Activity {
-
-    private class Stats {
-        public int matches;
-        public int highScore;
-        public int avgScore;
-        public int highestTile;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,56 +23,68 @@ public class StatisticsActivity extends Activity {
         setContentView(R.layout.activity_stats);
 
         SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, MODE_PRIVATE);
-        setEasyStats(settings);
-        setMediumStats(settings);
-        setHardStats(settings);
+        String statsStr = settings.getString("stats", null);
+        GameStats stats = new GameStats();
+        if (statsStr != null) {
+            Gson gson = new Gson();
+            stats = gson.fromJson(statsStr, GameStats.class);
+        }
+
+        TableLayout statsTable = (TableLayout) findViewById(R.id.stats_table);
+        for (GameLevel level : GameLevel.values()) {
+            addStatsViewForLevel(stats, level, statsTable);
+        }
     }
 
-    public Stats getStats(SharedPreferences settings, int level) {
-        int size = level + 1;
-        Stats stats = new Stats();
-        stats.matches = settings.getInt("matches" + size, 0);
-        stats.highScore = settings.getInt("highScore" + size, 0);
-        stats.highestTile = settings.getInt("highestTile" + size, 0);
-        int totalScore = settings.getInt("totalScore" + size, 0);
-        stats.avgScore = stats.matches == 0 ? 0 : totalScore / stats.matches;
-        return stats;
+    public void addStatsViewForLevel(GameStats gameStats, GameLevel level, TableLayout statsTable) {
+        UserLevelStats userStats = gameStats.getUserStatsForLevel(level);
+        if (userStats == null) {
+            userStats = new UserLevelStats();
+        }
+        addHeaderRow(level, statsTable);
+
+        int avgScore = userStats.totalMatches == 0 ? 0 : userStats.totalScore / userStats.totalMatches;
+        addStatRow("Games Played", userStats.totalMatches, statsTable);
+        addStatRow("Highest Score", userStats.highestScore, statsTable);
+        addStatRow("Highest Tile", userStats.highestTile, statsTable);
+        addStatRow("Average Score", avgScore, statsTable);
     }
 
-    public void setEasyStats(SharedPreferences settings) {
-        Stats stats = getStats(settings, 1);
-        TextView matches = (TextView) findViewById(R.id.easy_matches);
-        matches.setText(String.valueOf(stats.matches));
-        TextView highScore = (TextView) findViewById(R.id.easy_high_score);
-        highScore.setText(String.valueOf(stats.highScore));
-        TextView highestTile = (TextView) findViewById(R.id.easy_high_tile);
-        highestTile.setText(String.valueOf(stats.highestTile));
-        TextView avgScore = (TextView) findViewById(R.id.easy_avg_score);
-        avgScore.setText(String.valueOf(stats.avgScore));
+    private void addHeaderRow(GameLevel level, TableLayout statsTable) {
+        TableRow headerRow = new TableRow(this);
+        headerRow.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        headerRow.setBackgroundColor(Color.parseColor("#50000000"));
+        headerRow.setPadding(5, 10, 5, 5);
+        statsTable.addView(headerRow);
+
+        TextView tv = new TextView(this);
+        tv.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        tv.setText(level.name + " Level Stats");
+        tv.setTextColor(Color.parseColor("#CCCCCC"));
+        tv.setTextSize(22);
+        tv.setTypeface(null, Typeface.BOLD);
+        headerRow.addView(tv);
     }
 
-    public void setMediumStats(SharedPreferences settings) {
-        Stats stats = getStats(settings, 2);
-        TextView matches = (TextView) findViewById(R.id.medium_matches);
-        matches.setText(String.valueOf(stats.matches));
-        TextView highScore = (TextView) findViewById(R.id.medium_high_score);
-        highScore.setText(String.valueOf(stats.highScore));
-        TextView highestTile = (TextView) findViewById(R.id.medium_high_tile);
-        highestTile.setText(String.valueOf(stats.highestTile));
-        TextView avgScore = (TextView) findViewById(R.id.medium_avg_score);
-        avgScore.setText(String.valueOf(stats.avgScore));
-    }
+    private void addStatRow(String statName, int statValue, TableLayout statsTable) {
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        tr.setPadding(5, 5, 5, 5);
+        statsTable.addView(tr);
 
-    public void setHardStats(SharedPreferences settings) {
-        Stats stats = getStats(settings, 3);
-        TextView matches = (TextView) findViewById(R.id.hard_matches);
-        matches.setText(String.valueOf(stats.matches));
-        TextView highScore = (TextView) findViewById(R.id.hard_high_score);
-        highScore.setText(String.valueOf(stats.highScore));
-        TextView highestTile = (TextView) findViewById(R.id.hard_high_tile);
-        highestTile.setText(String.valueOf(stats.highestTile));
-        TextView avgScore = (TextView) findViewById(R.id.hard_avg_score);
-        avgScore.setText(String.valueOf(stats.avgScore));
+        TextView statNameView = new TextView(this);
+        statNameView.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        statNameView.setText(statName);
+        statNameView.setTextColor(Color.parseColor("#DDDDDD"));
+        statNameView.setTextSize(18);
+        tr.addView(statNameView);
+
+        TextView statValueView = new TextView(this);
+        statValueView.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        statValueView.setText(String.valueOf(statValue));
+        statValueView.setTextColor(Color.parseColor("#DDDDDD"));
+        statValueView.setTextSize(18);
+        tr.addView(statValueView);
     }
 
     // Google Analytics

@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.webtoapp.basetwo.game.GameLevel;
+import com.webtoapp.basetwo.game.GameStats;
+import com.webtoapp.basetwo.game.UserLevelStats;
 
 public class MainMenuActivity extends Activity {
     SharedPreferences settings;
@@ -21,6 +24,11 @@ public class MainMenuActivity extends Activity {
         if (boardStr != null) {
             Button playButton = (Button) findViewById(R.id.play_btn);
             playButton.setText("Resume");
+        }
+
+        String stats = settings.getString("stats", null);
+        if (stats == null) {
+            addOldStatsIfPresent();
         }
     }
 
@@ -48,6 +56,29 @@ public class MainMenuActivity extends Activity {
     public void playGame(View view) {
         Intent startIntent = new Intent(this, GameActivity.class);
         startActivityForResult(startIntent, GameActivity.ACTIVITY_CODE);
+    }
+
+    private void addOldStatsIfPresent() {
+        GameStats gameStats = new GameStats();
+        SharedPreferences.Editor editor = settings.edit();
+        for (GameLevel level : GameLevel.values()) {
+            int levelId = level.levelId;
+            int matches = settings.getInt("matches" + levelId, 0);
+            if (matches > 0) {
+                UserLevelStats stats = new UserLevelStats();
+                stats.totalMatches = matches;
+                stats.highestScore = settings.getInt("highScore" + levelId, 0);
+                stats.totalScore = settings.getInt("totalScore" + levelId, 0);
+                stats.highestTile = settings.getInt("highestTile" + levelId, 0);
+                gameStats.addOldUserStats(level, stats);
+                editor.remove("matches" + levelId)
+                        .remove("highScore" + levelId)
+                        .remove("totalScore" + levelId)
+                        .remove("highestTile" + levelId);
+            }
+        }
+        editor.putString("stats", gameStats.toString());
+        editor.commit();
     }
 
     @Override

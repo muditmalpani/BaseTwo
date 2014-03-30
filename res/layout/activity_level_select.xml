@@ -49,7 +49,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/button"
                 android:onClick="chooseLevel"
-                android:text="@string/level_easy"
+                android:text="@string/level_beginner"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
 
@@ -62,7 +62,7 @@
                 android:layout_marginTop="40dp"
                 android:background="@drawable/button"
                 android:onClick="chooseLevel"
-                android:text="@string/level_medium"
+                android:text="@string/level_inter"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
 
@@ -75,7 +75,7 @@
                 android:layout_marginTop="40dp"
                 android:background="@drawable/button"
                 android:onClick="chooseLevel"
-                android:text="@string/level_hard"
+                android:text="@string/level_tri"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
             

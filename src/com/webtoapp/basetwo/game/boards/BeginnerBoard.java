@@ -49,10 +49,6 @@ public final class BeginnerBoard extends NormalBoard implements Board {
     }
 
     protected int getRandomValue() {
-        double x = Math.random();
-        if (x < 0.85) {
-            return 2;
-        }
-        return 4;
+        return 2;
     }
 }
