@@ -8,20 +8,28 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.google.gson.Gson;
+import com.webtoapp.basetwo.game.GameStats;
 
 public class LevelSelectActivity extends Activity {
     public static final int ACTIVITY_CODE = 2;
-    private int level;
+    private GameStats stats;
+    SharedPreferences settings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_level_select);
 
-        SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
-        level = settings.getInt("level", 4);
+        settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
+        String statsStr = settings.getString("stats", null);
+        if (statsStr != null) {
+            Gson gson = new Gson();
+            stats = gson.fromJson(statsStr, GameStats.class);
+        }
+
         Button b = null;
-        switch (level) {
+        switch (stats.gameLevel) {
             case 2:
                 b = (Button) findViewById(R.id.level1_btn);
                 break;
@@ -41,7 +49,7 @@ public class LevelSelectActivity extends Activity {
     }
 
     public void chooseLevel(View view) {
-        int new_level = level;
+        int new_level = stats.gameLevel;
         switch (view.getId()) {
             case R.id.level1_btn:
                 new_level = 2;
@@ -56,9 +64,8 @@ public class LevelSelectActivity extends Activity {
                 new_level = 6;
                 break;
         }
-        if (new_level != level) {
-            level = new_level;
-            final SharedPreferences settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
+        if (new_level != stats.gameLevel) {
+            stats.gameLevel = new_level;
             if (settings.contains("board")) {
                 new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_LIGHT)
                         .setIcon(android.R.drawable.ic_dialog_alert)
@@ -67,7 +74,7 @@ public class LevelSelectActivity extends Activity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                settings.edit().putInt("level", level).remove("board").commit();
+                                settings.edit().putString("stats", stats.toString()).remove("board").commit();
                                 finish();
                             }
                         })
@@ -79,7 +86,7 @@ public class LevelSelectActivity extends Activity {
                         })
                         .show();
             } else {
-                settings.edit().putInt("level", level).commit();
+                settings.edit().putString("stats", stats.toString()).commit();
                 finish();
             }
         } else {

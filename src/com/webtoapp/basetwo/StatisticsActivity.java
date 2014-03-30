@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
@@ -34,6 +35,25 @@ public class StatisticsActivity extends Activity {
         for (GameLevel level : GameLevel.values()) {
             addStatsViewForLevel(stats, level, statsTable);
         }
+
+        addLevelAndPoints(stats);
+    }
+
+    public void addLevelAndPoints(GameStats gameStats) {
+        int level = gameStats.userLevel;
+        int pointsForCurrentLevel = level * (level + 1) * 50;
+        int pointsForNextLevel = (level + 1) * (level + 2) * 50;
+        int pointsNeeded = pointsForNextLevel - gameStats.totalPoints;
+
+        TextView levelView = (TextView) findViewById(R.id.level_stat_view);
+        levelView.setText(String.valueOf(level));
+
+        TextView pointsNeededView = (TextView) findViewById(R.id.points_needed_stat_view);
+        pointsNeededView.setText(String.valueOf(pointsNeeded));
+
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.points_stat_view);
+        progressBar.setMax(pointsForNextLevel - pointsForCurrentLevel);
+        progressBar.setProgress(gameStats.totalPoints - pointsForCurrentLevel);
     }
 
     public void addStatsViewForLevel(GameStats gameStats, GameLevel level, TableLayout statsTable) {
