@@ -107,7 +107,7 @@ public class GameActivity extends Activity implements OnGestureListener {
         gameStats.updateUserStatsForGame(gameLevel, board.score(), board.highestTile());
 
         // update points and userLevel
-        int pointsGained = board.score() * 100 / gameLevel.goodScoreLimit;
+        int pointsGained = board.score() * 100 * gameLevel.scoreMultiplier / gameLevel.goodScoreLimit;
         gameStats.totalPoints += pointsGained;
         int nextLevel = gameStats.userLevel + 1;
         int pointsForNextLevel = nextLevel * (nextLevel + 1) * 50;
