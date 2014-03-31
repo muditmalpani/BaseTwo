@@ -118,6 +118,30 @@
                 android:layout_marginTop="5dp"
                 android:textColor="#dddddd"
                 android:textSize="18sp" />
+            
+            <TextView
+                android:id="@+id/inst_levels_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_scoring"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="10dp"
+                android:text="Level:"
+                android:textColor="#dddddd"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/inst_levels"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@id/inst_levels_header"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="#dddddd"
+                android:textSize="18sp" />
         </RelativeLayout>
     </ScrollView>
 

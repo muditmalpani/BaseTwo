@@ -91,6 +91,15 @@
                 android:text="@string/level_hex"
                 android:textColor="#ffffff"
                 android:textSize="18sp" />
+            
+            <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/level4_btn"
+                android:layout_marginTop="40dp"
+                android:text="Expert Level Coming Soon!"
+                android:textColor="#D12828"
+                android:textSize="24sp"/>
         </RelativeLayout>
     </RelativeLayout>
 
