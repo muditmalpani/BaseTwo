@@ -11,16 +11,51 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:textSize="34sp"
+        android:text="Well Done!"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:gravity="center"
         android:textColor="#F14848" />
+    
+    <LinearLayout 
+        android:id="@+id/start_rating"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_below="@id/result_message"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        <ImageView 
+            android:id="@+id/rating_star_1"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:rotation="-20"
+            android:src="@drawable/empty_star"/>
+        <ImageView
+            android:id="@+id/rating_star_2"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/empty_star"/>
+        <ImageView 
+            android:id="@+id/rating_star_3"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:rotation="20"
+            android:src="@drawable/empty_star"/>
+    </LinearLayout>
     
     <RelativeLayout 
         android:id="@+id/score_view_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/result_message"
+        android:layout_below="@id/start_rating"
         android:layout_marginTop="20dp"
         android:paddingBottom="5dp"
         android:background="@drawable/result_background" >

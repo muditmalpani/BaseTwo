@@ -1,6 +1,12 @@
 package com.webtoapp.basetwo.utils;
 
+import android.content.Context;
 import android.view.MotionEvent;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import com.webtoapp.basetwo.R;
 import com.webtoapp.basetwo.game.DirectionType;
 import com.webtoapp.basetwo.game.GameLevel;
 import com.webtoapp.basetwo.game.SwipeDirection;
@@ -37,6 +43,31 @@ public class GameUtils {
             return 2;
         }
         return 3;
+    }
+
+    public static void animateStars(final int rating, final ImageView[] stars, final int numStar, final Context context) {
+        if (rating > numStar) {
+            ImageView star = stars[numStar];
+            Animation fadeInAnim = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+            fadeInAnim.setDuration(1000);
+            fadeInAnim.setStartTime(1000);
+            fadeInAnim.setAnimationListener(new AnimationListener() {
+                @Override
+                public void onAnimationStart(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationRepeat(Animation animation) {
+                }
+
+                @Override
+                public void onAnimationEnd(Animation animation) {
+                    animateStars(rating, stars, numStar + 1, context);
+                }
+            });
+            star.setImageResource(R.drawable.star);
+            star.startAnimation(fadeInAnim);
+        }
     }
 
     public static SwipeDirection getDirection(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY,

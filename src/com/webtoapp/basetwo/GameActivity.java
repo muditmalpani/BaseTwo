@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TableLayout;
@@ -122,9 +123,21 @@ public class GameActivity extends Activity implements OnGestureListener {
                 .commit();
     }
 
+    private void animateStars(final int rating) {
+        if(rating <= 0) {
+            return;
+        }
+        ImageView star1 = (ImageView) findViewById(R.id.rating_star_1);
+        ImageView star2 = (ImageView) findViewById(R.id.rating_star_2);
+        ImageView star3 = (ImageView) findViewById(R.id.rating_star_3);
+        ImageView[] stars = {star1, star2, star3};
+        GameUtils.animateStars(rating, stars, 0, this);
+    }
+
     private void showGameOverScreen() {
         String message = GameUtils.getGameOverMessage(board.score(), gameLevel,
                 gameStats.getUserStatsForLevel(gameLevel));
+        int rating = GameUtils.getRating(board.score(), gameLevel, gameStats.getUserStatsForLevel(gameLevel));
         UserLevelStats stats = gameStats.getUserStatsForLevel(gameLevel);
         int avgScore = stats.totalMatches == 0 ? 0 : stats.totalScore / stats.totalMatches;
 
@@ -138,11 +151,12 @@ public class GameActivity extends Activity implements OnGestureListener {
         TextView highTileView = (TextView) findViewById(R.id.highest_tile_view);
         highTileView.setText("Highest Tile: " + board.highestTile());
         TextView highScoreView = (TextView) findViewById(R.id.high_score_view);
-        highScoreView.setText("High Score: " + String.valueOf(stats.highestScore));
+        highScoreView.setText("Best Score: " + String.valueOf(stats.highestScore));
         TextView avgScoreView = (TextView) findViewById(R.id.avg_score_view);
         avgScoreView.setText("Average Score: " + String.valueOf(avgScore));
         TextView messageView = (TextView) findViewById(R.id.result_message);
         messageView.setText(message);
+        animateStars(rating);
 
         ImageButton shareBtn = (ImageButton) findViewById(R.id.share_btn);
         final Activity activity = this;
