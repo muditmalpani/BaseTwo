@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -15,6 +19,7 @@ import com.google.gson.Gson;
 import com.webtoapp.basetwo.game.GameLevel;
 import com.webtoapp.basetwo.game.GameStats;
 import com.webtoapp.basetwo.game.UserLevelStats;
+import com.webtoapp.basetwo.utils.GameUtils;
 
 public class StatisticsActivity extends Activity {
 
@@ -68,6 +73,7 @@ public class StatisticsActivity extends Activity {
         addStatRow("Highest Score", userStats.highestScore, statsTable);
         addStatRow("Highest Tile", userStats.highestTile, statsTable);
         addStatRow("Average Score", avgScore, statsTable);
+        addRatingRow(gameStats, level, statsTable);
     }
 
     private void addHeaderRow(GameLevel level, TableLayout statsTable) {
@@ -105,6 +111,42 @@ public class StatisticsActivity extends Activity {
         statValueView.setTextColor(Color.parseColor("#DDDDDD"));
         statValueView.setTextSize(18);
         tr.addView(statValueView);
+    }
+
+    private void addRatingRow(GameStats gameStats, GameLevel level, TableLayout statsTable) {
+        TableRow tr = new TableRow(this);
+        tr.setLayoutParams(new TableRow.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        tr.setPadding(5, 5, 5, 5);
+        statsTable.addView(tr);
+
+        TextView statNameView = new TextView(this);
+        statNameView.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        statNameView.setText("Rating");
+        statNameView.setTextColor(Color.parseColor("#DDDDDD"));
+        statNameView.setTextSize(18);
+        tr.addView(statNameView);
+
+        LinearLayout stars = new LinearLayout(this);
+        int starSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30,
+                getResources().getDisplayMetrics());
+        stars.setLayoutParams(new TableRow.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+        UserLevelStats userStatsForLevel = gameStats.getUserStatsForLevel(level);
+        int rating = userStatsForLevel == null ? 0 : GameUtils.getRating(userStatsForLevel.highestScore, level,
+                userStatsForLevel);
+        for (int i = 0; i < 3; i++) {
+            ImageView star = new ImageView(this);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(starSize, starSize);
+            params.setMargins(0, 0, 10, 0);
+            star.setLayoutParams(params);
+            if (i < rating) {
+                star.setImageResource(R.drawable.star);
+            } else {
+                star.setImageResource(R.drawable.empty_star);
+            }
+            star.setScaleType(ScaleType.FIT_XY);
+            stars.addView(star);
+        }
+        tr.addView(stars);
     }
 
     // Google Analytics

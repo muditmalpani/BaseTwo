@@ -14,18 +14,29 @@ public class GameUtils {
 
     public static String getGameOverMessage(int score, GameLevel level, UserLevelStats stats) {
         String message = "GAME OVER!";
-        if (score > level.averageScoreLimit) {
-            message = "AVERAGE";
+        if (score > level.excellentScoreLimit) {
+            message = "EXCELLENT!";
         } else if (score > level.goodScoreLimit) {
             message = "WELL DONE!";
-        } else if (score > level.excellentScoreLimit) {
-            message = "EXCELLENT!";
+        } else if (score > level.averageScoreLimit) {
+            message = "AVERAGE";
         }
 
         if (stats.highestScore <= score) {
             message = "HIGH SCORE!";
         }
         return message;
+    }
+
+    public static int getRating(int score, GameLevel level, UserLevelStats stats) {
+        if (score < level.averageScoreLimit) {
+            return 0;
+        } else if (score < level.goodScoreLimit) {
+            return 1;
+        } else if (score < level.excellentScoreLimit) {
+            return 2;
+        }
+        return 3;
     }
 
     public static SwipeDirection getDirection(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY,
