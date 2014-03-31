@@ -72,32 +72,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/score_view_layout"
+        android:gravity="center_horizontal"
         android:layout_marginTop="20dp" >
-
-        <ImageButton
-            android:id="@+id/share_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerInParent="true"
-            android:src="@drawable/fbshare"
-            android:background="@android:color/transparent"
-            android:textColor="#ddd" />
-        
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/share_btn"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal" >
-
             <ImageButton
                 android:id="@+id/back_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
                 android:src="@drawable/menu"
+                android:contentDescription="Go Back To Menu"
                 android:textColor="#FFFFFF" >
             </ImageButton>
 
@@ -105,14 +88,25 @@
                 android:id="@+id/restart_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/back_btn"
                 android:background="@android:color/transparent"
                 android:src="@drawable/restart"
+                android:contentDescription="Restart Game"
                 android:textColor="#FFFFFF" >
             </ImageButton>
-        </RelativeLayout>
-
+            
+            <ImageButton
+                android:id="@+id/share_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_toRightOf="@id/restart_btn"
+                android:background="@android:color/transparent"
+                android:src="@drawable/share"
+                android:contentDescription="Share score on Facebook"
+                android:textColor="#FFFFFF" >
+            </ImageButton>
     </RelativeLayout>
     
 </RelativeLayout>
