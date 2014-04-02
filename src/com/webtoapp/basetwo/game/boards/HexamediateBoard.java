@@ -118,6 +118,51 @@ public class HexamediateBoard extends AbstractBoard implements Board {
     }
 
     @Override
+    protected boolean isDiagonalMovePossible() {
+        //check for similar cells in front diagonal
+        for (int i = 0; i < size; i++) {
+            int prev = -1;
+            for (int row = 0; row < size; row++) {
+                int index = row <= size / 2 ? i : (i - row + (size - 1) / 2);
+                int v = 0;
+                if (index >= 0 && index < rows[row].size) {
+                    v = rows[row].cells[index].value();
+                }
+                if (v != 0) {
+                    if (prev != -1 && v == prev) {
+                        return true;
+                    }
+                    prev = v;
+                } else {
+                    prev = -1;
+                }
+            }
+        }
+
+        //check for similar cells in back diagonal
+        for (int i = 0; i < size; i++) {
+            int prev = -1;
+            for (int row = 0; row < size; row++) {
+                int index = row >= size / 2 ? i : (i + row - (size - 1) / 2);
+                int v = 0;
+                if (index >= 0 && index < rows[row].size) {
+                    v = rows[row].cells[index].value();
+                }
+                if (v != 0) {
+                    if (prev != -1 && v == prev) {
+                        return true;
+                    }
+                    prev = v;
+                } else {
+                    prev = -1;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    @Override
     protected void addRows() {
         for (int row = 0; row < size; row++) {
             int rowSize = size - Math.abs(row - (size - 1) / 2);
