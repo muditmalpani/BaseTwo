@@ -7,7 +7,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import com.webtoapp.basetwo.game.Cell;
+import com.webtoapp.basetwo.game.SpecialCellType;
 import com.webtoapp.basetwo.game.SwipeDirection;
+import com.webtoapp.basetwo.utils.BaseUtils;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -45,11 +47,8 @@ public abstract class AbstractBoard implements Board {
     protected TableLayout boardView;
     protected int numEmptyCells;
     protected int score;
-    protected int highestTile;
 
     protected abstract void addRows();
-
-    protected abstract int getRandomValue();
 
     protected abstract int getBoardSize();
 
@@ -60,6 +59,20 @@ public abstract class AbstractBoard implements Board {
     protected abstract boolean pushDownLeft();
 
     protected abstract boolean pushDownRight();
+
+    protected int getRandomValue() {
+        // Default Implementation
+        double x = Math.random();
+        if (x < 0.8) {
+            return 2;
+        } else if (x < 0.92) {
+            return 4;
+        } else if (x < 0.97) {
+            return -1;
+        } else {
+            return -2;
+        }
+    }
 
     private Cell getRandomEmptyCell() {
         if (numEmptyCells == 0) {
@@ -77,7 +90,7 @@ public abstract class AbstractBoard implements Board {
         List<Cell> emptyCells = new ArrayList<Cell>();
         for (Row row : rows) {
             for (Cell cell : row.cells) {
-                if (cell.value() <= 0) {
+                if (cell.value() == 0) {
                     emptyCells.add(cell);
                 }
             }
@@ -157,11 +170,21 @@ public abstract class AbstractBoard implements Board {
         int prev = -1;
         for (Integer i : initialList) {
             if (i != null && i != 0) {
-                if (i == prev) {
-                    int newVal = 2 * i;
-                    if (newVal > highestTile) {
-                        highestTile = newVal;
+                if (i < 0) {
+                    if (prev == -1) {
+                        finalList.add(i);
+                    } else {
+                        int res = applySpecialCell(i, prev);
+                        if (res == 1) {
+                            finalList.add(prev);
+                            finalList.add(i);
+                        } else {
+                            finalList.add(res);
+                        }
+                        prev = -1;
                     }
+                } else if (i == prev) {
+                    int newVal = 2 * i;
                     finalList.add(newVal);
                     score += newVal;
                     prev = -1;
@@ -185,9 +208,35 @@ public abstract class AbstractBoard implements Board {
         return finalList;
     }
 
+    private int applySpecialCell(int specialCellValue, int origCellValue) {
+        SpecialCellType cellType = SpecialCellType.fromVal(specialCellValue);
+        if (cellType == null) {
+            return origCellValue;
+        }
+        switch (cellType) {
+        case DOUBLE:
+            int res = origCellValue * 2;
+            score += getValueAddition(res);
+            return res;
+        case HALF:
+            res = origCellValue / 2;
+            if (res != 1) {
+                score -= getValueAddition(origCellValue);
+            }
+            return res;
+        default:
+            return origCellValue;
+        }
+    }
+
+    private int getValueAddition(int val) {
+        int exp = BaseUtils.logBase2(val);
+        return val * exp / 2;
+    }
+
     /**
      * Pushes the filled cells to the front and combines cells with same value
-     * 
+     *
      * @param cellList - List of cells to be pushed
      * @return Returns true if cells were updated
      */
@@ -336,7 +385,15 @@ public abstract class AbstractBoard implements Board {
 
     @Override
     public int highestTile() {
-        return highestTile;
+        int highest = 2;
+        for (Row r : rows) {
+            for (Cell c : r.cells) {
+                if (c.value() > highest) {
+                    highest = c.value();
+                }
+            }
+        }
+        return highest;
     }
 
     @Override
@@ -372,7 +429,6 @@ public abstract class AbstractBoard implements Board {
         JSONObject json = new JSONObject();
         try {
             json.put("score", score);
-            json.put("highestTile", highestTile);
             json.put("numEmptyCells", numEmptyCells);
             json.put("board", boardStr);
         } catch (JSONException e) {

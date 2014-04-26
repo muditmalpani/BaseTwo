@@ -33,7 +33,6 @@ public class HexamediateBoard extends AbstractBoard implements Board {
         this.size = 5;
         this.numEmptyCells = json.getInt("numEmptyCells");
         this.score = json.getInt("score");
-        this.highestTile = json.getInt("highestTile");
         this.boardView = view;
         this.context = context;
         this.rows = new Row[size];
@@ -45,7 +44,6 @@ public class HexamediateBoard extends AbstractBoard implements Board {
         this.size = 5;
         this.numEmptyCells = getBoardSize();
         this.score = 0;
-        this.highestTile = 2;
         this.boardView = view;
         this.context = context;
         this.rows = new Row[size];
@@ -171,15 +169,6 @@ public class HexamediateBoard extends AbstractBoard implements Board {
             boardView.addView(r.rowView);
             rows[row] = r;
         }
-    }
-
-    @Override
-    protected int getRandomValue() {
-        double x = Math.random();
-        if (x < 0.85) {
-            return 2;
-        }
-        return 4;
     }
 
     @Override

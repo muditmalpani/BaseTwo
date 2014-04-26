@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.widget.TableRow;
 import android.widget.TextView;
 import com.webtoapp.basetwo.R;
+import com.webtoapp.basetwo.utils.BaseUtils;
 
 public final class Cell {
     private static String[] cellColors = {
@@ -69,18 +70,39 @@ public final class Cell {
         return v;
     }
 
+    private String getDisplayLabel() {
+        if (this.value < 0) {
+            SpecialCellType cellType = SpecialCellType.fromVal(value);
+            return cellType.label;
+        } else {
+            return String.valueOf(value);
+        }
+    }
+
     private void displayText() {
-        if (value > 0) {
-            view.setText(String.valueOf(value));
-            int colorIndex = logBase2(value) - 1;
+        if (value != 0) {
+            view.setText(getDisplayLabel());
             GradientDrawable drawable = (GradientDrawable) view.getBackground();
-            drawable.setColor(Color.parseColor(cellColors[colorIndex]));
+            if (value > 0) {
+                int colorIndex = BaseUtils.logBase2(value) - 1;
+                if (colorIndex > 12) {
+                    drawable.setColor(Color.parseColor(cellColors[12]));
+                } else {
+                    drawable.setColor(Color.parseColor(cellColors[colorIndex]));
+                }
+            } else {
+                drawable.setColor(Color.parseColor("#a0e40a"));
+            }
             if (value < 10) {
                 view.setTextColor(Color.parseColor("#776666"));
             } else {
                 view.setTextColor(Color.parseColor("#EEEEEE"));
             }
-            if (value > 1000) {
+            if (value > 100000) {
+                view.setTextSize(16);
+            } else if (value > 10000) {
+                view.setTextSize(20);
+            } else if (value > 1000) {
                 view.setTextSize(25);
             } else if (value > 100) {
                 view.setTextSize(28);
@@ -99,10 +121,6 @@ public final class Cell {
         view.setText("");
         GradientDrawable drawable = (GradientDrawable) view.getBackground();
         drawable.setColor(Color.parseColor(cellColor));
-    }
-
-    private static int logBase2(int a) {
-        return (int) (Math.log(a) / Math.log(2));
     }
 
     public String toString() {

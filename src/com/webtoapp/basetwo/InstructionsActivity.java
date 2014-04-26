@@ -25,6 +25,14 @@ public class InstructionsActivity extends Activity {
                 + "For every combined pair of tiles, your score is incremented by the value of the new tile created. "
                 + "You are rated based on your average score across the games played "
                 + "and your hightest score at each level";
+        String specialCellPara = "Apart from the number cells which always have a numerical value, there are some special cells."
+                + "These cells have no value of their own, but combine with another cell to change its value."
+                + " The special cells always have <b>green</b> color There are two special cells:<br/>"
+                + "<p>&#8226; <b>Double(2x):</b> This cell doubles the value of the cell with which it combines. The cell will only combile in the"
+                + "direction of the swipe and other cell can't combine with 'Double'. For example if have a '2' followed by a 'Double' in first row, the left swipe will make 'Double' combile with '2'"
+                + "to make 4, but if you swipe right '2' cannot combine with 'Double'. This allows you to move 'Double' around and combine with appropriate cell.</p>"
+                + "<p>&#8226; <b>Half(1/2):</b> This cell reduces the value of a cell to half. Similar to 'Double', 'Half' only combines in the direction"
+                + "of the swipe and other cells can't combine with 'Half'. It also doens't combine with '2'.</p>";
         String levelPara = "There are 5 levels in this game:<br/>"
                 + "<p>&#8226; <b>Beginner:</b> This level has 2x2 square board with swipes allowed in horizontal and vertical directions. This is very simple puzzle where the maximum possible tile is 16. This level is for newbies to understand the game.<br></p>"
                 + "<p>&#8226; <b>Intermediate:</b> This level has 4x4 square board with swipes allowed in horizontal and vertical direction. Combine the tiles to get tiles with larger values and try to keep the high-valued tiles in a corner to make the game last longer.<br></p>"
@@ -35,6 +43,7 @@ public class InstructionsActivity extends Activity {
         ((TextView) findViewById(R.id.inst_gameplay)).setText(gameplayPara);
         ((TextView) findViewById(R.id.inst_objective)).setText(objectivePara);
         ((TextView) findViewById(R.id.inst_scoring)).setText(scoringPara);
+        ((TextView) findViewById(R.id.inst_special)).setText(Html.fromHtml(specialCellPara));
         ((TextView) findViewById(R.id.inst_levels)).setText(Html.fromHtml(levelPara));
 
         moPubView = (MoPubView) findViewById(R.id.inst_adview);

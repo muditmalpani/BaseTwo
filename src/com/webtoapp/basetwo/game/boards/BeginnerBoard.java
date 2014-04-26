@@ -30,7 +30,6 @@ public final class BeginnerBoard extends NormalBoard implements Board {
         this.size = 2;
         this.numEmptyCells = json.getInt("numEmptyCells");
         this.score = json.getInt("score");
-        this.highestTile = json.getInt("highestTile");
         this.boardView = view;
         this.context = context;
         this.rows = new Row[size];
@@ -42,7 +41,6 @@ public final class BeginnerBoard extends NormalBoard implements Board {
         this.size = 2;
         this.numEmptyCells = getBoardSize();
         this.score = 0;
-        this.highestTile = 2;
         this.boardView = view;
         this.context = context;
         this.rows = new Row[size];

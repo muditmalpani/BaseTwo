@@ -3,8 +3,6 @@ package com.webtoapp.basetwo.game.boards;
 
 public abstract class NormalBoard extends AbstractBoard implements Board {
 
-    protected abstract int getRandomValue();
-
     @Override
     protected void addRows() {
         for (int row = 0; row < size; row++) {

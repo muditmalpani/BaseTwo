@@ -39,4 +39,8 @@ public class BaseUtils {
             return "N/A";
         }
     }
+
+    public static int logBase2(int a) {
+        return (int) (Math.log(a) / Math.log(2));
+    }
 }

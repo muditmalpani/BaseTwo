@@ -29,7 +29,6 @@ public final class IntermediateBoard extends NormalBoard implements Board {
         this.size = 4;
         this.numEmptyCells = json.getInt("numEmptyCells");
         this.score = json.getInt("score");
-        this.highestTile = json.getInt("highestTile");
         this.boardView = view;
         this.context = context;
         this.rows = new Row[size];
@@ -41,17 +40,8 @@ public final class IntermediateBoard extends NormalBoard implements Board {
         this.size = 4;
         this.numEmptyCells = getBoardSize();
         this.score = 0;
-        this.highestTile = 2;
         this.boardView = view;
         this.context = context;
         this.rows = new Row[size];
-    }
-
-    protected int getRandomValue() {
-        double x = Math.random();
-        if (x < 0.85) {
-            return 2;
-        }
-        return 4;
     }
 }
