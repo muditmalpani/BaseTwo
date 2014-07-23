@@ -30,7 +30,11 @@ public class GameStats {
     }
 
     public UserLevelStats getUserStatsForLevel(GameLevel level) {
-        return userStatsByLevel.get(level);
+        UserLevelStats stats = userStatsByLevel.get(level);
+        if (stats == null) {
+            stats = new UserLevelStats();
+        }
+        return stats;
     }
 
     @Override
