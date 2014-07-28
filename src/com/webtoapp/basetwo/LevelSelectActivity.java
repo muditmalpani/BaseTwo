@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import com.facebook.AppEventsLogger;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 import com.webtoapp.basetwo.game.GameStats;
@@ -105,6 +106,12 @@ public class LevelSelectActivity extends Activity {
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
     }
 
 }

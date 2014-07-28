@@ -14,6 +14,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+import com.facebook.AppEventsLogger;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
 import com.webtoapp.basetwo.game.GameLevel;
@@ -160,5 +161,11 @@ public class StatisticsActivity extends Activity {
     public void onStop() {
         super.onStop();
         EasyTracker.getInstance(this).activityStop(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
     }
 }

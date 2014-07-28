@@ -20,6 +20,7 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.facebook.AppEventsLogger;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
 import com.google.analytics.tracking.android.EasyTracker;
@@ -361,6 +362,7 @@ public class GameActivity extends Activity implements OnGestureListener {
     protected void onResume() {
         super.onResume();
         uiHelper.onResume();
+        AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
     }
 
     @Override
