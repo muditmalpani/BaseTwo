@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import com.adjust.sdk.Adjust;
 import com.facebook.AppEventsLogger;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
@@ -111,7 +112,14 @@ public class LevelSelectActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        Adjust.onResume(this);
         AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Adjust.onPause();
     }
 
 }

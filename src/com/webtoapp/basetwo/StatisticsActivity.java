@@ -14,6 +14,7 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TableRow.LayoutParams;
 import android.widget.TextView;
+import com.adjust.sdk.Adjust;
 import com.facebook.AppEventsLogger;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.gson.Gson;
@@ -166,6 +167,13 @@ public class StatisticsActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        Adjust.onResume(this);
         AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Adjust.onPause();
     }
 }

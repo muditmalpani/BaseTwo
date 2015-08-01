@@ -20,6 +20,8 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.adjust.sdk.Adjust;
+import com.facebook.AppEventsConstants;
 import com.facebook.AppEventsLogger;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.FacebookDialog;
@@ -41,6 +43,7 @@ import com.webtoapp.basetwo.utils.GameUtils;
 public class GameActivity extends Activity implements OnGestureListener {
     public static final int ACTIVITY_CODE = 1;
     public static final String PREFS_NAME = "AppPrefsFile";
+    private static final String FB_APP_ID = "1453866754846254";
 
     private Board board;
     private GameLevel gameLevel;
@@ -53,7 +56,8 @@ public class GameActivity extends Activity implements OnGestureListener {
 
     private Tracker tracker;// Google Analytics
 
-    private UiLifecycleHelper uiHelper;// Facebook share
+    private UiLifecycleHelper fbUiHelper;// Facebook share
+    private AppEventsLogger fbLogger;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +73,10 @@ public class GameActivity extends Activity implements OnGestureListener {
         moPubView.setAdUnitId("edef7449ac8040048a2be832117c3609");
         moPubView.loadAd();
 
-        uiHelper = new UiLifecycleHelper(this, null);
-        uiHelper.onCreate(savedInstanceState);
+        fbUiHelper = new UiLifecycleHelper(this, null);
+        fbUiHelper.onCreate(savedInstanceState);
+
+        fbLogger = fbUiHelper.getAppEventsLogger();
 
         settings = getSharedPreferences(GameActivity.PREFS_NAME, 0);
 
@@ -103,6 +109,8 @@ public class GameActivity extends Activity implements OnGestureListener {
                         BaseUtils.getShaAndroidId(getApplicationContext()),
                         null)
                 .build());
+        fbLogger.logEvent(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT);
+        Adjust.trackEvent("game_start");
     }
 
     private void updateStats() {
@@ -174,7 +182,7 @@ public class GameActivity extends Activity implements OnGestureListener {
                                             + "the direction of swipe combine to form a single tile with double the value.")
                             .setLink("https://play.google.com/store/apps/details?id=com.webtoapp.basetwo")
                             .build();
-                    uiHelper.trackPendingDialogCall(shareDialog.present());
+                    fbUiHelper.trackPendingDialogCall(shareDialog.present());
                 } else {
                     Toast.makeText(
                             getApplicationContext(),
@@ -273,7 +281,7 @@ public class GameActivity extends Activity implements OnGestureListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
+        fbUiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
             @Override
             public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
                 Log.e("Activity", String.format("Error: %s", error.toString()));
@@ -361,14 +369,16 @@ public class GameActivity extends Activity implements OnGestureListener {
     @Override
     protected void onResume() {
         super.onResume();
-        uiHelper.onResume();
-        AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
+        fbUiHelper.onResume();
+        Adjust.onResume(this);
+        AppEventsLogger.activateApp(getApplicationContext(), FB_APP_ID);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
+        Adjust.onPause();
+        fbUiHelper.onPause();
     }
 
     @Override
@@ -376,13 +386,13 @@ public class GameActivity extends Activity implements OnGestureListener {
         super.onDestroy();
         setResult(ACTIVITY_CODE);
         moPubView.destroy();
-        uiHelper.onDestroy();
+        fbUiHelper.onDestroy();
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
+        fbUiHelper.onSaveInstanceState(outState);
     }
 
 }

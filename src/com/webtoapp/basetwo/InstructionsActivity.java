@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.TextView;
+import com.adjust.sdk.Adjust;
 import com.facebook.AppEventsLogger;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.mopub.mobileads.MoPubView;
@@ -74,7 +75,14 @@ public class InstructionsActivity extends Activity {
     @Override
     public void onResume() {
         super.onResume();
+        Adjust.onResume(this);
         AppEventsLogger.activateApp(getApplicationContext(), "1453866754846254");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Adjust.onPause();
     }
 
 }
